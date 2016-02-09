@@ -16,6 +16,18 @@ class Handler:
     def mantieni( self, button ):
         print( self.l )
 
+# apro il file HTML di epub
+zuppa = BeautifulSoup(open("./epubs/JurassicPark/index_split_000.html"),
+                      "lxml" )
+
+for tag_paragrafo in zuppa.find_all("p"):
+    paragrafo = tag_paragrafo.string
+    if paragrafo != None:
+        l = listaSillabate(paragrafo)
+        if l != []:
+            # trovato paragrafo con una o più sillabate
+            correggiSillabateGUI( paragrafo, l )
+
 builder = Gtk.Builder()
 builder.add_from_file( "correzione.glade" )
 builder.connect_signals( Handler() )
