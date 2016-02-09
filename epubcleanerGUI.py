@@ -24,3 +24,5 @@ window = builder.get_object( "window" )
 window.show_all()
 
 Gtk.main()
+
+print( "commit di prova" )
