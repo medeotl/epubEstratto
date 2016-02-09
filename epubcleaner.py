@@ -3,9 +3,9 @@
 
 import gi
 gi.require_version( 'Gtk', '3.0')
+from gi.repository import Gtk
 
 from bs4 import BeautifulSoup # browse del file HTML
-from gi.repository import Gtk
 
 import re
 import time
@@ -68,8 +68,6 @@ for tag_paragrafo in zuppa.find_all("p"):
         if l != []:
             # trovato paragrafo con una o più sillabate
             correggiSillabateGUI( paragrafo, l )
-            #~ print( paragrafo.string )
-            #~ time.sleep(3)
 
 # salvo i risultati
 with open("JurassicPark000Modificato.html", "wb") as file:
