@@ -38,9 +38,10 @@ class Handler:
             print( self.offset )
             paragrafo = self.tag_paragrafi[self.offset].string
             if paragrafo != None:
+                # paragrafo non vuoto, procedo
                 l = re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U)
                 if l != []:
-                    # trovato paragrafo con una o più sillabate
+                    # paragrafo contiene una o più sillabate
                     txtbuffer = builder.get_object( "txtbfrParagrafo" )
                     txtbuffer.set_text( paragrafo )
                     # evidenzio in grassetto la sillabata
