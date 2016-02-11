@@ -40,7 +40,7 @@ def correggiSillabateGUI( paragrafo, lista ):
     builder.connect_signals( handlers )
 
     txtbuffer = builder.get_object( "txtbfrParagrafo" )
-    txtbuffer.set_text( paragrafo.string)
+    txtbuffer.set_text( paragrafo )
     # evidenzio in grassetto la sillabata
     start = paragrafo.find( lista[0] )
     end = start + len( lista[0] )
