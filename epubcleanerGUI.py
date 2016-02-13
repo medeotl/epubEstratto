@@ -37,28 +37,32 @@ class Handler:
         while self.offset < len(self.tag_paragrafi):
             print( self.offset )
             paragrafo = self.tag_paragrafi[self.offset].string
-            if paragrafo != None:
-                # paragrafo non vuoto, procedo
+            if paragrafo != None:  # paragrafo non vuoto, procedo
                 l = re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U)
-                if l != []:
-                    # paragrafo contiene una o più sillabate
-                    txtbuffer = builder.get_object( "txtbfrParagrafo" )
-                    txtbuffer.set_text( paragrafo )
-                    # evidenzio in grassetto la sillabata
-                    start = paragrafo.find( l[0] )
-                    end = start + len( l[0] )
-                    start = txtbuffer.get_iter_at_offset( start )
-                    end = txtbuffer.get_iter_at_offset( end )
-                    tag_bold = builder.get_object( "bold" )
-                    txtbuffer.apply_tag( tag_bold, start, end )
+                if l != []:  # paragrafo contiene una o più sillabate
+                    self.imposta(paragrafo, l)
                     # aggiorno la label parola
                     lbl_sillabata = builder.get_object( "sillabata" )
                     lbl_sillabata.set_text( "Parola: " + l[0] )
                     self.offset += 1
                     break
             self.offset +=1
-        print( "Fine file raggiunto" )
+        if self.offset == len(self.tag_paragrafi):
+            print( "Fine file raggiunto" )
                     
+    def imposta( self, paragrafo, l ):
+        print( "lunghezza paragrafo: " + str(len(paragrafo)) )
+        # riempie la text box in modo stiloso
+        txtbuffer = builder.get_object( "txtbfrParagrafo" )
+        txtbuffer.set_text( paragrafo )
+        # evidenzio in grassetto sottolineato rosso la sillabata
+        start = paragrafo.find( l[0] )
+        end = start + len( l[0] )
+        start = txtbuffer.get_iter_at_offset( start )
+        end = txtbuffer.get_iter_at_offset( end )
+        tag_bold = builder.get_object( "bold red underlined" )
+        txtbuffer.apply_tag( tag_bold, start, end )
+    
 builder = Gtk.Builder()
 builder.add_from_file( "correzione.glade" )
 builder.connect_signals( Handler() )
