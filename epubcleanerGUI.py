@@ -27,7 +27,7 @@ class Handler:
     def start( self, button ):
         # apro il file HTML di epub
         zuppa = BeautifulSoup(
-            open( "./epubs/JurassicPark/index_split_000.html"), "lxml" )
+            open( "./epubs/JurassicPark/index_split_003.html"), "lxml" )
         
         self.tag_paragrafi = zuppa.find_all("p")
         self.offset = 0
@@ -41,7 +41,7 @@ class Handler:
             if paragrafo != None:  # paragrafo non vuoto, procedo
                 l = re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U)
                 if l != []:  # paragrafo contiene una o più sillabate
-                    self.imposta(paragrafo, l)
+                    self.imposta_frase(paragrafo, l)
                     # aggiorno la label parola
                     lbl_sillabata = builder.get_object( "sillabata" )
                     lbl_sillabata.set_text( "Parola: " + l[0] )
@@ -51,12 +51,10 @@ class Handler:
         if self.offset == len(self.tag_paragrafi):
             print( "Fine file raggiunto" )
                     
-    def imposta( self, paragrafo, l ):
-        #~ print( "lunghezza paragrafo: " + str(len(paragrafo)) )
-        print( l[0] )
+    def imposta_frase( self, paragrafo, l ):
         # isolo la frase contente la sillabata dal paragrafo e la 
         # pongo nella text box
-        txtbuffer = builder.get_object( "txtbfrParagrafo" )
+        txtbuffer = builder.get_object( "txtbfrFrase" )
         
         frasi = paragrafo.split(".")
         for frase in frasi:
@@ -68,6 +66,7 @@ class Handler:
                 start = txtbuffer.get_iter_at_offset( start )
                 end = txtbuffer.get_iter_at_offset( end )
                 txtbuffer.apply_tag( self.tag_sillabata, start, end )
+                break
     
 builder = Gtk.Builder()
 builder.add_from_file( "correzione.glade" )

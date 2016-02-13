@@ -12,7 +12,7 @@
       </object>
     </child>
   </object>
-  <object class="GtkTextBuffer" id="txtbfrParagrafo">
+  <object class="GtkTextBuffer" id="txtbfrFrase">
     <property name="tag_table">texttagtable1</property>
   </object>
   <object class="GtkWindow" id="window">
@@ -33,7 +33,7 @@
           <object class="GtkLabel" id="label1">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="label" translatable="yes">Paragrafo</property>
+            <property name="label" translatable="yes">Frase</property>
             <property name="xalign">0.019999999552965164</property>
           </object>
           <packing>
@@ -43,12 +43,12 @@
           </packing>
         </child>
         <child>
-          <object class="GtkTextView" id="paragrafo">
+          <object class="GtkTextView" id="frase">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="editable">False</property>
             <property name="wrap_mode">word</property>
-            <property name="buffer">txtbfrParagrafo</property>
+            <property name="buffer">txtbfrFrase</property>
           </object>
           <packing>
             <property name="expand">True</property>
