@@ -21,6 +21,13 @@ class EpubCleaner( Gtk.Application ):
 
         self.connect("startup", self.startup)
         self.connect("activate", self.activate)
+        
+        try:
+            with open("whitelist.txt") as f:
+                whitelist = f.read().splitlines()
+        except:
+            whitelist = []
+        print( whitelist )
 
     def startup( self, app):
         # primo ad essere eseguito dopo __init__
@@ -52,7 +59,7 @@ class EpubCleaner( Gtk.Application ):
         # apro il file HTML di epub
         pass
         zuppa = BeautifulSoup(
-            open( "./epubs/JurassicPark/index_split_003.html"), "lxml" )
+            open( "./epubs/JurassicPark/index_split_004.html"), "lxml" )
         
         self.tag_paragrafi = zuppa.find_all("p")
         self.offset = 0
