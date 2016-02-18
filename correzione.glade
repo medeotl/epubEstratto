@@ -80,7 +80,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text" translatable="yes">Lascia intatta la parola</property>
-                <signal name="clicked" handler="mantieni" swapped="no"/>
+                <signal name="clicked" handler="on_mantieni_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -95,7 +95,7 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text" translatable="yes">Lascia intatta la parola e la inserisce in una white list</property>
-                <signal name="clicked" handler="whitelist" swapped="no"/>
+                <signal name="clicked" handler="on_whitelist_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -111,7 +111,7 @@
                 <property name="has_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text" translatable="yes">Corregge la parola nell'ebook togliendo il trattino</property>
-                <signal name="clicked" handler="correggi" swapped="no"/>
+                <signal name="clicked" handler="on_correggi_clicked" swapped="no"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -132,7 +132,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <signal name="clicked" handler="start" swapped="no"/>
+            <signal name="clicked" handler="on_start_clicked" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>

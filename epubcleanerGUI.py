@@ -24,10 +24,10 @@ class EpubCleaner( Gtk.Application ):
         
         try:
             with open("whitelist.txt") as f:
-                whitelist = f.read().splitlines()
+                self.whitelist = f.read().splitlines()
         except:
-            whitelist = []
-        print( whitelist )
+            self.whitelist = []
+        print( self.whitelist )
 
     def startup( self, app):
         # primo ad essere eseguito dopo __init__
@@ -45,17 +45,17 @@ class EpubCleaner( Gtk.Application ):
         # gestione apertura da file browser
         pass
         
-    def mantieni( self, button ):
+    def on_mantieni_clicked( self, button ):
         self.trova_prox_sillabata()
         
-    def whitelist( self, button ):
+    def on_whitelist_clicked( self, button ):
         # aggiungo la sillabata alla whitelist
+        self.whitelist.append( )
+        
+    def on_correggi_clicked( self, button ):
         self.trova_prox_sillabata()
         
-    def correggi( self, button ):
-        self.trova_prox_sillabata()
-        
-    def start( self, button ):
+    def on_start_clicked( self, button ):
         # apro il file HTML di epub
         pass
         zuppa = BeautifulSoup(
@@ -74,6 +74,7 @@ class EpubCleaner( Gtk.Application ):
             if paragrafo != None:  # paragrafo non vuoto, procedo
                 l = re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U)
                 if l != []:  # paragrafo contiene una o più sillabate
+                    self.sillabata = l[0]
                     self.imposta_frase(paragrafo, l)
                     # aggiorno la label parola
                     lbl_sillabata = self.builder.get_object( 
