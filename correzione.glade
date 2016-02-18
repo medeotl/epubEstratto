@@ -15,14 +15,13 @@
   <object class="GtkTextBuffer" id="txtbfrFrase">
     <property name="tag_table">texttagtable1</property>
   </object>
-  <object class="GtkWindow" id="window">
+  <object class="GtkApplicationWindow" id="window">
     <property name="can_focus">False</property>
     <property name="border_width">6</property>
     <property name="title" translatable="yes">parola sillabata</property>
     <property name="window_position">center</property>
     <property name="default_width">420</property>
     <property name="default_height">300</property>
-    <signal name="delete-event" handler="onDeleteWindow" swapped="no"/>
     <child>
       <object class="GtkBox" id="box1">
         <property name="visible">True</property>
