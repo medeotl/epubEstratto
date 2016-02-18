@@ -21,12 +21,15 @@ class EpubCleaner( Gtk.Application ):
 
         self.connect("startup", self.startup)
         self.connect("activate", self.activate)
+        self.connect("shutdown", self.shutdown)
         
         try:
-            with open("whitelist.txt") as f:
+            with open("./whitelist.txt") as f:
                 self.whitelist = f.read().splitlines()
+                self.original_lenght = len(self.whitelist)
         except:
             self.whitelist = []
+            self.original_lenght = 0
         print( self.whitelist )
 
     def startup( self, app):
@@ -50,7 +53,9 @@ class EpubCleaner( Gtk.Application ):
         
     def on_whitelist_clicked( self, button ):
         # aggiungo la sillabata alla whitelist
-        self.whitelist.append( )
+        print( self.sillabata )
+        self.whitelist.append( self.sillabata )
+        self.trova_prox_sillabata()
         
     def on_correggi_clicked( self, button ):
         self.trova_prox_sillabata()
@@ -59,7 +64,7 @@ class EpubCleaner( Gtk.Application ):
         # apro il file HTML di epub
         pass
         zuppa = BeautifulSoup(
-            open( "./epubs/JurassicPark/index_split_004.html"), "lxml" )
+            open( "./epubs/JurassicPark/index_split_002.html"), "lxml" )
         
         self.tag_paragrafi = zuppa.find_all("p")
         self.offset = 0
@@ -69,13 +74,13 @@ class EpubCleaner( Gtk.Application ):
         
     def trova_prox_sillabata( self ):
         while self.offset < len(self.tag_paragrafi):
-            print( self.offset )
+            #~ print( self.offset )
             paragrafo = self.tag_paragrafi[self.offset].string
             if paragrafo != None:  # paragrafo non vuoto, procedo
                 l = re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U)
                 if l != []:  # paragrafo contiene una o più sillabate
                     self.sillabata = l[0]
-                    self.imposta_frase(paragrafo, l)
+                    self.imposta_frase(paragrafo)
                     # aggiorno la label parola
                     lbl_sillabata = self.builder.get_object( 
                         "sillabata" )
@@ -86,23 +91,34 @@ class EpubCleaner( Gtk.Application ):
         if self.offset == len(self.tag_paragrafi):
             print( "Fine file raggiunto" )
                     
-    def imposta_frase( self, paragrafo, l ):
+    def imposta_frase( self, paragrafo):
         # isolo la frase contente la sillabata dal paragrafo e la 
         # pongo nella text box
         txtbuffer = self.builder.get_object( "txtbfrFrase" )
         
         frasi = paragrafo.split(".")
         for frase in frasi:
-            if frase.find( l[0] ) != -1:
+            if frase.find( self.sillabata ) != -1:
                 txtbuffer.set_text( frase )
                 # evidenzio in grassetto sottolineato rosso la sillabata
-                start = frase.find( l[0] )
-                end = start + len( l[0] )
+                start = frase.find( self.sillabata )
+                end = start + len( self.sillabata )
                 start = txtbuffer.get_iter_at_offset( start )
                 end = txtbuffer.get_iter_at_offset( end )
                 txtbuffer.apply_tag( self.tag_sillabata, start, end )
                 break
 
+    def shutdown( self, app ):
+        if self.whitelist != []:
+            # salvo la whitelist su file
+            try:
+                with open("whitelist.txt", 'w') as f:
+                    f.seek( self.original_lenght )
+                    for parola in self.whitelist:
+                        f.write("%s\n" % parola)
+            except:
+                print( "CHI HA CANCELLATO IL FILE?!?!!?" )
+        
 if __name__ == '__main__':
     app = EpubCleaner()
     app.run(sys.argv)
