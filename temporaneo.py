@@ -3,16 +3,13 @@
 
 import gi
 gi.require_version( 'Gtk', '3.0')
-from gi.repository import Gtk
+from gi.repository import Gio, Gtk
 
 from bs4 import BeautifulSoup # browse del file HTML
 import re # ricerca parole in testo 
 from time import sleep # per ritardare eventi 
 
 import sys
-
-from gi.repository import Gio, Gtk
-
 
 class EpubCleaner( Gtk.Application ):
 
