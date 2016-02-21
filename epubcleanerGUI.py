@@ -25,11 +25,17 @@ class EpubCleaner( Gtk.Application ):
         
         try:
             with open("./whitelist.txt") as f:
+                print( "FILE PRESENTE" )
                 self.whitelist = f.read().splitlines()
                 self.original_lenght = len(self.whitelist)
         except:
+            print( "FILE NON PRESENTE" )
             self.whitelist = []
             self.original_lenght = 0
+            #creo il file
+            f = open( "whitelist.txt", "w")
+            f.close()
+            
         print( self.whitelist )
 
     def startup( self, app):
@@ -64,7 +70,7 @@ class EpubCleaner( Gtk.Application ):
         # apro il file HTML di epub
         pass
         zuppa = BeautifulSoup(
-            open( "./epubs/JurassicPark/index_split_002.html"), "lxml" )
+            open( "./epubs/JurassicPark/index_split_003.html"), "lxml" )
         
         self.tag_paragrafi = zuppa.find_all("p")
         self.offset = 0
@@ -112,9 +118,8 @@ class EpubCleaner( Gtk.Application ):
         if self.whitelist != []:
             # salvo la whitelist su file
             try:
-                with open("whitelist.txt", 'w') as f:
-                    f.seek( self.original_lenght )
-                    for parola in self.whitelist:
+                with open("whitelist.txt", 'a') as f:
+                    for parola in self.whitelist[self.original_lenght:]:
                         f.write("%s\n" % parola)
             except:
                 print( "CHI HA CANCELLATO IL FILE?!?!!?" )
