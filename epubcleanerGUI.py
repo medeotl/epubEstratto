@@ -84,15 +84,18 @@ class EpubCleaner( Gtk.Application ):
             paragrafo = self.tag_paragrafi[self.offset].string
             if paragrafo != None:  # paragrafo non vuoto, procedo
                 l = re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U)
-                if l != []:  # paragrafo contiene una o più sillabate
-                    self.sillabata = l[0]
-                    self.imposta_frase(paragrafo)
-                    # aggiorno la label parola
-                    lbl_sillabata = self.builder.get_object( 
-                        "sillabata" )
-                    lbl_sillabata.set_text( "Parola: " + l[0] )
-                    self.offset += 1
-                    break
+                if l != []: # paragrafo contiene una o più sillabate
+                    if l[0] in self.whitelist:
+                        print( "salto %s\n" %l[0] )
+                    else:
+                        self.sillabata = l[0]
+                        self.imposta_frase(paragrafo)
+                        # aggiorno la label parola
+                        lbl_sillabata = self.builder.get_object( 
+                            "sillabata" )
+                        lbl_sillabata.set_text( "Parola: " + l[0] )
+                        self.offset += 1
+                        break
             self.offset +=1
         if self.offset == len(self.tag_paragrafi):
             print( "Fine file raggiunto" )
