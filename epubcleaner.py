@@ -22,7 +22,7 @@ def correggiSillabateCLI( paragrafo ):
         print( '\n' + 'PARAGRAFO' + paragrafo + '\n' )
         for i, sillabata in enumerate( lista_sillabate ):
             print( sillabata + "\n" )
-            cambiare = raw_input( "cambiare? [S|n]: " )
+            cambiare = input( "cambiare? [S|n]: " )
             if cambiare != 'n':
                 cambiata = sillabata.replace( '-', '' )
                 print("cambiata: " + cambiata)
@@ -67,7 +67,7 @@ for tag_paragrafo in zuppa.find_all("p"):
         l = listaSillabate(paragrafo)
         if l != []:
             # trovato paragrafo con una o più sillabate
-            correggiSillabateGUI( paragrafo, l )
+            correggiSillabateCLI( paragrafo )
 
 # salvo i risultati
 with open("JurassicPark000Modificato.html", "wb") as file:
