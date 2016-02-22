@@ -64,6 +64,14 @@ class EpubCleaner( Gtk.Application ):
         self.trova_prox_sillabata()
         
     def on_correggi_clicked( self, button ):
+        # correggo la sillabata
+        cambiata = self.sillabata.replace( '-', '' )
+        print("cambiata: %s\n" % cambiata)
+        # aggiorno il paragrafo
+        paragrafo = self.tag_paragrafi[self.offset].string 
+        paragrafo_corretto = paragrafo.replace( self.sillabata, 
+                                                cambiata )
+        self.tag_paragrafi[self.offset].string = paragrafo_corretto                                       
         self.trova_prox_sillabata()
         
     def on_start_clicked( self, button ):
