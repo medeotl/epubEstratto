@@ -19,7 +19,7 @@ def correggiSillabateCLI( paragrafo ):
                                   paragrafo,
                                   re.U)
     if lista_sillabate != []:
-        print( '\n' + 'PARAGRAFO' + paragrafo + '\n' )
+        print( "\n" + "PARAGRAFO" + paragrafo + "\n" )
         for i, sillabata in enumerate( lista_sillabate ):
             print( sillabata + "\n" )
             cambiare = input( "cambiare? [S|n]: " )
@@ -27,7 +27,9 @@ def correggiSillabateCLI( paragrafo ):
                 cambiata = sillabata.replace( '-', '' )
                 print("cambiata: " + cambiata)
                 paragrafo = paragrafo.replace( sillabata, cambiata )
+                tag_paragrafo.string = paragrafo
                 print( "\n--- CAMBIATA ---\n")
+                
 
 def correggiSillabateGUI( paragrafo, lista ):
     builder = Gtk.Builder()
@@ -58,19 +60,19 @@ def correggiSillabateGUI( paragrafo, lista ):
 
 # ---- MAIN ----
 
-zuppa = BeautifulSoup( open("./epubs/JurassicPark/index_split_000.html"),
-                       "lxml" )
+zuppa = BeautifulSoup(open("./epubs/JurassicPark/index_split_000.html"),
+                      "lxml" )
 
 for tag_paragrafo in zuppa.find_all("p"):
     paragrafo = tag_paragrafo.string
     if paragrafo != None:
-        l = listaSillabate(paragrafo)
+        l = listaSillabate( paragrafo )
         if l != []:
             # trovato paragrafo con una o più sillabate
             correggiSillabateCLI( paragrafo )
 
 # salvo i risultati
-with open("JurassicPark000Modificato.html", "wb") as file:
+with open("JurassicPark000Modificato.html", "wt") as file:
     file.write( zuppa.prettify(zuppa.original_encoding) )
 
 # Riferimenti:
