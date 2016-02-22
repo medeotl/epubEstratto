@@ -8,16 +8,12 @@ from gi.repository import Gtk
 from bs4 import BeautifulSoup # browse del file HTML
 
 import re
-import time
 
 def listaSillabate( paragrafo ):
     #indica se nel paragrafo è presente una o più sillabate
     return re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U)
 
-def correggiSillabateCLI( paragrafo ):
-    lista_sillabate = re.findall( r"\w+(?:-[\w]+)+",
-                                  paragrafo,
-                                  re.U)
+def correggiSillabateCLI( paragrafo, lista_sillabate ):
     if lista_sillabate != []:
         print( "\n" + "PARAGRAFO" + paragrafo + "\n" )
         for i, sillabata in enumerate( lista_sillabate ):
@@ -29,34 +25,6 @@ def correggiSillabateCLI( paragrafo ):
                 paragrafo = paragrafo.replace( sillabata, cambiata )
                 tag_paragrafo.string = paragrafo
                 print( "\n--- CAMBIATA ---\n")
-                
-
-def correggiSillabateGUI( paragrafo, lista ):
-    builder = Gtk.Builder()
-    builder.add_from_file( "correzione.glade" )
-
-    handlers = {
-        "onDeleteWindow": Gtk.main_quit
-    }
-
-    builder.connect_signals( handlers )
-
-    txtbuffer = builder.get_object( "txtbfrParagrafo" )
-    txtbuffer.set_text( paragrafo )
-    # evidenzio in grassetto la sillabata
-    start = paragrafo.find( lista[0] )
-    end = start + len( lista[0] )
-    start = txtbuffer.get_iter_at_offset( start )
-    end = txtbuffer.get_iter_at_offset( end )
-    tag_bold = builder.get_object( "bold" )
-    txtbuffer.apply_tag( tag_bold, start, end )
-
-    lbl_sillabata = builder.get_object( "sillabata" )
-    lbl_sillabata.set_text( "Parola: " + lista[0] )
-
-    window = builder.get_object( "window" )
-    window.show_all()
-    Gtk.main()
 
 # ---- MAIN ----
 
@@ -69,7 +37,7 @@ for tag_paragrafo in zuppa.find_all("p"):
         l = listaSillabate( paragrafo )
         if l != []:
             # trovato paragrafo con una o più sillabate
-            correggiSillabateCLI( paragrafo )
+            correggiSillabateCLI( paragrafo, l )
 
 # salvo i risultati
 with open("JurassicPark000Modificato.html", "wt") as file:
