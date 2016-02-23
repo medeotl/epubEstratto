@@ -68,19 +68,22 @@ class EpubCleaner( Gtk.Application ):
         cambiata = self.sillabata.replace( '-', '' )
         print("cambiata: %s\n" % cambiata)
         # aggiorno il paragrafo
-        paragrafo = self.tag_paragrafi[self.offset].string 
+        paragrafo = self.tag_paragrafi[self.offset-1].string 
         paragrafo_corretto = paragrafo.replace( self.sillabata, 
                                                 cambiata )
-        self.tag_paragrafi[self.offset].string = paragrafo_corretto                                       
+        self.tag_paragrafi[self.offset-1].string = paragrafo_corretto                                       
+        # proseguo 
+        print( "paragrafo_corretto: %s\n" % paragrafo_corretto )
         self.trova_prox_sillabata()
         
     def on_start_clicked( self, button ):
         # apro il file HTML di epub
         pass
-        zuppa = BeautifulSoup(
-            open( "./epubs/JurassicPark/index_split_003.html"), "lxml" )
+        self.zuppa = BeautifulSoup(
+            open( "./epubs/JurassicPark/index_split_003.html"), 
+            "lxml" )
         
-        self.tag_paragrafi = zuppa.find_all("p")
+        self.tag_paragrafi = self.zuppa.find_all("p")
         self.offset = 0
         self.tag_sillabata = self.builder.get_object( 
             "bold red underlined" )
@@ -88,7 +91,7 @@ class EpubCleaner( Gtk.Application ):
         
     def trova_prox_sillabata( self ):
         while self.offset < len(self.tag_paragrafi):
-            #~ print( self.offset )
+            print( self.offset )
             paragrafo = self.tag_paragrafi[self.offset].string
             if paragrafo != None:  # paragrafo non vuoto, procedo
                 l = re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U)
@@ -103,6 +106,10 @@ class EpubCleaner( Gtk.Application ):
             self.offset +=1
         if self.offset == len(self.tag_paragrafi):
             print( "Fine file raggiunto" )
+            # salvo le modifiche
+            with open("JurassicParkModificato.html", "wt") as file:
+                file.write( self.zuppa.prettify(
+                                self.zuppa.original_encoding) )
                     
     def aggiorna_GUI( self, paragrafo):
         # isolo la frase contente la sillabata dal paragrafo e la 
