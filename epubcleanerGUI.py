@@ -125,11 +125,12 @@ class EpubCleaner( Gtk.Application ):
                             print( "saltato %s\n" %sillabata )
                             l.remove(sillabata)
                     # memorizzo "ritrovamento"
-                    elenco_sillabate[index] = l
+                    if l != []:
+                    	elenco_sillabate[index] = l
         # visualizzo risultato ricerca
         for item in sorted(elenco_sillabate):
             print( item, ':', elenco_sillabate[item] )
-        exit
+
                     
     def aggiorna_GUI( self, paragrafo):
         # isolo la frase contente la sillabata dal paragrafo e la 
