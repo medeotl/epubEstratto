@@ -78,7 +78,6 @@ class EpubCleaner( Gtk.Application ):
         
     def on_start_clicked( self, button ):
         # apro il file HTML di epub
-        pass
         self.zuppa = BeautifulSoup(
             open( "./epubs/JurassicPark/index_split_003.html"), 
             "lxml" )
@@ -87,7 +86,7 @@ class EpubCleaner( Gtk.Application ):
         self.offset = 0
         self.tag_sillabata = self.builder.get_object( 
             "bold red underlined" )
-        self.trova_prox_sillabata()
+        self.trova_sillabate()
         
     def trova_prox_sillabata( self ):
         while self.offset < len(self.tag_paragrafi):
@@ -110,6 +109,27 @@ class EpubCleaner( Gtk.Application ):
             with open("JurassicParkModificato.html", "wt") as file:
                 file.write( self.zuppa.prettify(
                                 self.zuppa.original_encoding) )
+
+    def trova_sillabate( self ):
+        # trova tutte le sillabate del file 00x.html
+        # verranno poi tutte elaborate via GUI dall'utente
+        elenco_sillabate = {}
+        for index, tag_paragrafo in enumerate( self.tag_paragrafi ):
+            paragrafo = tag_paragrafo.string
+            if paragrafo != None:  # paragrafo non vuoto, procedo
+                l = re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U)
+                if l != []: # paragrafo contiene una o più sillabate
+                    # whitelist check
+                    for sillabata in l:
+                        if sillabata in self.whitelist:
+                            print( "saltato %s\n" %sillabata )
+                            l.remove(sillabata)
+                    # memorizzo "ritrovamento"
+                    elenco_sillabate[index] = l
+        # visualizzo risultato ricerca
+        for item in sorted(elenco_sillabate):
+            print( item, ':', elenco_sillabate[item] )
+        exit
                     
     def aggiorna_GUI( self, paragrafo):
         # isolo la frase contente la sillabata dal paragrafo e la 
@@ -118,7 +138,7 @@ class EpubCleaner( Gtk.Application ):
         
         frasi = paragrafo.split(".")
         for frase in frasi:
-            if frase.find( self.sillabata ) != -1:
+            if frase.find( self.sillabata ) != -1: # frase contiene sil.
                 txtbuffer.set_text( frase )
                 # evidenzio in grassetto sottolineato rosso la sillabata
                 start = frase.find( self.sillabata )
