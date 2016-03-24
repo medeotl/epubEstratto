@@ -36,7 +36,7 @@ class EpubCleaner( Gtk.Application ):
             f = open( "whitelist.txt", "w")
             f.close()
             
-        print( self.whitelist )
+        print( "whitelist: %s" % self.whitelist )
 
     def startup( self, app):
         # primo ad essere eseguito dopo __init__
