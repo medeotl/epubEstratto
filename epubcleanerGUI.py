@@ -112,8 +112,8 @@ class EpubCleaner( Gtk.Application ):
 
     def trova_sillabate( self ):
         # trova tutte le sillabate del file 00x.html
-        # verranno poi tutte elaborate via GUI dall'utente
-        elenco_sillabate = {}
+        # le pone in una lista di tuple del tipo (paragrafo, sillabata)
+        elenco_sillabate = []
         for index, tag_paragrafo in enumerate( self.tag_paragrafi ):
             paragrafo = tag_paragrafo.string
             if paragrafo != None:  # paragrafo non vuoto, procedo
@@ -126,17 +126,19 @@ class EpubCleaner( Gtk.Application ):
                             l.remove(sillabata)
                     # memorizzo "ritrovamento"
                     if l != []:
-                    	elenco_sillabate[index] = l
+                    	for sillabata in l:
+                            elenco_sillabate.append( (index,sillabata) )
         # visualizzo risultato ricerca
-        for item in sorted(elenco_sillabate):
-            print( item, ':', elenco_sillabate[item] )
+        for item in (elenco_sillabate):
+            print( item )
 
-                    
-    def aggiorna_GUI( self, paragrafo):
+    def aggiorna_GUI( self ):
         # isolo la frase contente la sillabata dal paragrafo e la 
         # pongo nella text box
+        
         txtbuffer = self.builder.get_object( "txtbfrFrase" )
         
+        paragrafo = next(self.sillabata)
         frasi = paragrafo.split(".")
         for frase in frasi:
             if frase.find( self.sillabata ) != -1: # frase contiene sil.
