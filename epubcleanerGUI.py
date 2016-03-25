@@ -131,6 +131,9 @@ class EpubCleaner( Gtk.Application ):
         # visualizzo risultato ricerca
         for item in (elenco_sillabate):
             print( item )
+        print( "---\n" )
+        self.sillabata = iter( elenco_sillabate )    
+
 
     def aggiorna_GUI( self ):
         # isolo la frase contente la sillabata dal paragrafo e la 
