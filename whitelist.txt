@@ -1,8 +1,7 @@
 
-bnco-cng
-send-screen
-Uh-uhu
-send-screen
-non-vivente
-duecento-duecentocinquanta
-comin-ciavano
+sottile-intelligente
+sottili-intelligenti
+Monitor-Main
+Security-Main
+Command-Main
+Laboratory-Main
