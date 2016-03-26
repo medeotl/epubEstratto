@@ -130,7 +130,7 @@ class EpubCleaner( Gtk.Application ):
                             elenco_sillabate.append( (index,sillabata) )
         print( "prima sillabata trovata: %s %s" % elenco_sillabate[0] )
         # creo iterator per il risultato ottenuto
-        self.sillabata = iter( elenco_sillabate )
+        self.elenco_sillabate = iter( elenco_sillabate )
         # aggiorno la GUI con la prima sillabata trovata
         self.aggiorna_GUI()
 
@@ -142,7 +142,7 @@ class EpubCleaner( Gtk.Application ):
         print( "\n--- funzione aggiorna_GUI ---\n" )
         txtbuffer = self.builder.get_object( "txtbfrFrase" )
         
-        index_paragrafo, sillabata = next(self.sillabata)
+        index_paragrafo, sillabata = next(self.elenco_sillabate)
         paragrafo = self.tag_paragrafi[ index_paragrafo ].string
         frasi = paragrafo.split(".")
         for frase in frasi:
