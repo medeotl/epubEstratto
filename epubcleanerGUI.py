@@ -128,34 +128,36 @@ class EpubCleaner( Gtk.Application ):
                     if l != []:
                     	for sillabata in l:
                             elenco_sillabate.append( (index,sillabata) )
-        # visualizzo risultato ricerca
-        for item in (elenco_sillabate):
-            print( item )
-        print( "---\n" )
-        self.sillabata = iter( elenco_sillabate )    
+        print( "prima sillabata trovata: %s %s" % elenco_sillabate[0] )
+        # creo iterator per il risultato ottenuto
+        self.sillabata = iter( elenco_sillabate )
+        # aggiorno la GUI con la prima sillabata trovata
+        self.aggiorna_GUI()
 
 
     def aggiorna_GUI( self ):
         # isolo la frase contente la sillabata dal paragrafo e la 
         # pongo nella text box
         
+        print( "\n--- funzione aggiorna_GUI ---\n" )
         txtbuffer = self.builder.get_object( "txtbfrFrase" )
         
-        paragrafo = next(self.sillabata)
+        index_paragrafo, sillabata = next(self.sillabata)
+        paragrafo = self.tag_paragrafi[ index_paragrafo ].string
         frasi = paragrafo.split(".")
         for frase in frasi:
-            if frase.find( self.sillabata ) != -1: # frase contiene sil.
+            if frase.find( sillabata ) != -1: # frase contiene sillabata
                 txtbuffer.set_text( frase )
                 # evidenzio in grassetto sottolineato rosso la sillabata
-                start = frase.find( self.sillabata )
-                end = start + len( self.sillabata )
+                start = frase.find( sillabata )
+                end = start + len( sillabata )
                 start = txtbuffer.get_iter_at_offset( start )
                 end = txtbuffer.get_iter_at_offset( end )
                 txtbuffer.apply_tag( self.tag_sillabata, start, end )
                 break
         # aggiorno la label parola
         lbl_sillabata = self.builder.get_object( "sillabata" )
-        lbl_sillabata.set_text( "Parola: " + self.sillabata )                
+        lbl_sillabata.set_text( "Parola: " + sillabata )                
 
     def shutdown( self, app ):
         if self.whitelist != []:
