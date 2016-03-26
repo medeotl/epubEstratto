@@ -55,13 +55,13 @@ class EpubCleaner( Gtk.Application ):
         pass
         
     def on_mantieni_clicked( self, button ):
-        self.aggiorna_GUI()
+        self.aggiorna_GUI( *next(self.elenco_sillabate) )
         
     def on_whitelist_clicked( self, button ):
         # aggiungo la sillabata alla whitelist
-        print( self.sillabata )
-        self.whitelist.append( self.sillabata )
-        self.trova_prox_sillabata()
+        print( self.sillabata_corrente )
+        self.whitelist.append( self.sillabata_corrente )
+        self.a()
         
     def on_correggi_clicked( self, button ):
         # correggo la sillabata
@@ -134,17 +134,16 @@ class EpubCleaner( Gtk.Application ):
         # creo iterator per il risultato ottenuto
         self.elenco_sillabate = iter( elenco_sillabate )
         # aggiorno la GUI con la prima sillabata trovata
-        self.aggiorna_GUI()
+        self.aggiorna_GUI( *next(self.elenco_sillabate) )
 
 
-    def aggiorna_GUI( self ):
+    def aggiorna_GUI( self, index_paragrafo, sillabata ):
         # isolo la frase contente la PROSSIMA sillabata dal paragrafo e 
         # la pongo nella text box
         
         print( "\n--- funzione aggiorna_GUI ---\n" )
         txtbuffer = self.builder.get_object( "txtbfrFrase" )
         
-        index_paragrafo, sillabata = next(self.elenco_sillabate)
         paragrafo = self.tag_paragrafi[ index_paragrafo ].string
         frasi = paragrafo.split(".")
         for frase in frasi:
@@ -159,7 +158,10 @@ class EpubCleaner( Gtk.Application ):
                 break
         # aggiorno la label parola
         lbl_sillabata = self.builder.get_object( "sillabata" )
-        lbl_sillabata.set_text( "Parola: " + sillabata )                
+        lbl_sillabata.set_text( "Parola: " + sillabata )
+        # preservo index paragrafo e sillabata correnti
+        self.idx_par_corrente = index_paragrafo               
+        self.sillabata_corrente = sillabata
 
     def shutdown( self, app ):
         if self.whitelist != []:
