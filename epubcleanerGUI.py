@@ -55,7 +55,7 @@ class EpubCleaner( Gtk.Application ):
         pass
         
     def on_mantieni_clicked( self, button ):
-        self.trova_prox_sillabata()
+        self.aggiorna_GUI()
         
     def on_whitelist_clicked( self, button ):
         # aggiungo la sillabata alla whitelist
@@ -129,6 +129,8 @@ class EpubCleaner( Gtk.Application ):
                     	for sillabata in l:
                             elenco_sillabate.append( (index,sillabata) )
         print( "prima sillabata trovata: %s %s" % elenco_sillabate[0] )
+        for item in elenco_sillabate:
+            print( item )
         # creo iterator per il risultato ottenuto
         self.elenco_sillabate = iter( elenco_sillabate )
         # aggiorno la GUI con la prima sillabata trovata
@@ -136,8 +138,8 @@ class EpubCleaner( Gtk.Application ):
 
 
     def aggiorna_GUI( self ):
-        # isolo la frase contente la sillabata dal paragrafo e la 
-        # pongo nella text box
+        # isolo la frase contente la PROSSIMA sillabata dal paragrafo e 
+        # la pongo nella text box
         
         print( "\n--- funzione aggiorna_GUI ---\n" )
         txtbuffer = self.builder.get_object( "txtbfrFrase" )
