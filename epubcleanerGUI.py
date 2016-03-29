@@ -114,8 +114,8 @@ class EpubCleaner( Gtk.Application ):
 
     def trova_sillabate( self ):
         # trova tutte le sillabate del file 00x.html
-        # le pone in una lista di tuple del tipo (paragrafo, sillabata)
-        elenco_sillabate = []
+        # le pone in un dizionario del tipo { "sillabata", [14,21] }
+        diz_sillabate = {}
         for index, tag_paragrafo in enumerate( self.tag_paragrafi ):
             paragrafo = tag_paragrafo.string
             if paragrafo != None:  # paragrafo non vuoto, procedo
@@ -129,21 +129,31 @@ class EpubCleaner( Gtk.Application ):
                     # memorizzo "ritrovamento"
                     if l != []:
                     	for sillabata in l:
-                            elenco_sillabate.append( (index,sillabata) )
-        print( "prima sillabata trovata: %s %s" % elenco_sillabate[0] )
-        for item in elenco_sillabate:
-            print( item )
+                            if sillabata in diz_sillabate:
+                                diz_sillabate[sillabata].append(
+                                    index)
+                            else:
+                                diz_sillabate[sillabata] = [ index ]
+                                
+        # ordino il dizionario per index paragrafo
+        lista_sillabate = sorted(diz_sillabate.items(), 
+                                 key = lambda t: t[1]
+                                 )
+        for sillabata, indexes in lista_sillabate:
+            print( sillabata, indexes )
         # creo iterator per il risultato ottenuto
-        self.elenco_sillabate = iter( elenco_sillabate )
+        self.elenco_sillabate = iter( lista_sillabate )
         # aggiorno la GUI con la prima sillabata trovata
-        self.aggiorna_GUI( *next(self.elenco_sillabate) )
+        self.aggiorna_GUI( next(self.elenco_sillabate) )
 
 
-    def aggiorna_GUI( self, index_paragrafo, sillabata ):
+    def aggiorna_GUI( self, dati ):
         # isolo la frase contente la PROSSIMA sillabata dal paragrafo e 
         # la pongo nella text box
         
         print( "\n--- funzione aggiorna_GUI ---\n" )
+        sillabata, index_paragrafo = dati[0], dati[1][0]
+        print( sillabata, index_paragrafo )
         txtbuffer = self.builder.get_object( "txtbfrFrase" )
         
         paragrafo = self.tag_paragrafi[ index_paragrafo ].string

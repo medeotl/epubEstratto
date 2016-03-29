@@ -1,7 +1,1 @@
 
-sottile-intelligente
-sottili-intelligenti
-Monitor-Main
-Security-Main
-Command-Main
-Laboratory-Main
