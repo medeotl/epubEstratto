@@ -144,19 +144,25 @@ class EpubCleaner( Gtk.Application ):
         # creo iterator per il risultato ottenuto
         self.elenco_sillabate = iter( lista_sillabate )
         # aggiorno la GUI con la prima sillabata trovata
-        self.aggiorna_GUI( next(self.elenco_sillabate) )
+        self.aggiorna_GUI()
 
 
-    def aggiorna_GUI( self, dati ):
+    def aggiorna_GUI( self ):
         # isolo la frase contente la PROSSIMA sillabata dal paragrafo e 
         # la pongo nella text box
         
         print( "\n--- funzione aggiorna_GUI ---\n" )
-        sillabata, index_paragrafo = dati[0], dati[1][0]
-        print( sillabata, index_paragrafo )
+        self.sillabata_corrente, self.index_paragrafi = \
+            next(self.elenco_sillabate)
+        sillabata = self.sillabata_corrente
+        index_paragrafo = self.index_paragrafi[0]
+        
         txtbuffer = self.builder.get_object( "txtbfrFrase" )
         
         paragrafo = self.tag_paragrafi[ index_paragrafo ].string
+        
+        # ricerco la frase del paragrafo contenente la sillabata
+        # e la evidenzio con tag apposito
         frasi = paragrafo.split(".")
         for frase in frasi:
             if frase.find( sillabata ) != -1: # frase contiene sillabata
@@ -171,9 +177,6 @@ class EpubCleaner( Gtk.Application ):
         # aggiorno la label parola
         lbl_sillabata = self.builder.get_object( "sillabata" )
         lbl_sillabata.set_text( "Parola: " + sillabata )
-        # preservo index paragrafo e sillabata correnti
-        self.idx_par_corrente = index_paragrafo               
-        self.sillabata_corrente = sillabata
 
     def shutdown( self, app ):
         if self.whitelist != []:
