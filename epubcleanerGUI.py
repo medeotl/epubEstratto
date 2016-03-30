@@ -62,7 +62,7 @@ class EpubCleaner( Gtk.Application ):
         # aggiungo la sillabata alla whitelist
         print( "WHITELIST: aggiunta %s " % self.sillabata_corrente )
         self.whitelist.append( self.sillabata_corrente )
-        self.aggiorna_GUI( *next(self.elenco_sillabate) )
+        self.aggiorna_GUI()
         
     def on_correggi_clicked( self, button ):
         # correggo la sillabata
