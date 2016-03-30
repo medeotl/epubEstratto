@@ -55,7 +55,8 @@ class EpubCleaner( Gtk.Application ):
         pass
         
     def on_mantieni_clicked( self, button ):
-        self.aggiorna_GUI( *next(self.elenco_sillabate) )
+        # passo alla prossima sillabata
+        self.aggiorna_GUI()
         
     def on_whitelist_clicked( self, button ):
         # aggiungo la sillabata alla whitelist
