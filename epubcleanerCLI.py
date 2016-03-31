@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup # browse del file HTML
 import re
 
 def listaSillabate( paragrafo ):
-    #indica se nel paragrafo è presente una o più sillabate
+    # ritorna lista sillabate (anche vuota) presenti nel paragrafo
     return re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U)
 
 def correggiSillabateCLI( paragrafo, lista_sillabate ):

@@ -14,7 +14,6 @@ import sys
 class EpubCleaner( Gtk.Application ):
 
     def __init__( self ):
-        print( "__init__()" )
         Gtk.Application.__init__(
             self,
             application_id="com.wordpress.laconcoide.epubcleaner",
@@ -26,7 +25,6 @@ class EpubCleaner( Gtk.Application ):
         
         try:
             with open("./whitelist.txt") as f:
-                print( "FILE PRESENTE" )
                 self.whitelist = f.read().splitlines()
                 self.original_lenght = len(self.whitelist)
         except:
@@ -42,7 +40,6 @@ class EpubCleaner( Gtk.Application ):
     def startup( self, app):
         # primo ad essere eseguito dopo __init__
         # poi startup() o activate(), dipende da come lancio il progr.
-        print( "startup()" )
         self.builder = Gtk.Builder()
         self.builder.add_from_file( "correzione.glade" )
         self.builder.connect_signals( self )
@@ -50,7 +47,6 @@ class EpubCleaner( Gtk.Application ):
     
     def activate( self, app ):
         # app lanciata da SO (non da browser)
-        print( "activate()" )
         app.add_window( self.window )
         self.window.show_all()
 
@@ -91,6 +87,8 @@ class EpubCleaner( Gtk.Application ):
         self.zuppa = BeautifulSoup(
             open( "./epubs/JurassicPark/index_split_003.html"), 
             "lxml" )
+            #~ open( "./JurassicParkModificato.html"), 
+            #~ "lxml" )
         
         self.tag_paragrafi = self.zuppa.find_all("p")
         self.offset = 0
@@ -159,9 +157,13 @@ class EpubCleaner( Gtk.Application ):
         # isolo la frase contente la PROSSIMA sillabata dal paragrafo e 
         # la pongo nella text box
         
-        print( "\n--- funzione aggiorna_GUI ---\n" )
-        self.sillabata_corrente, self.index_paragrafi = \
-            next(self.elenco_sillabate)
+        try:
+            self.sillabata_corrente, self.index_paragrafi = \
+                next(self.elenco_sillabate)
+        except StopIteration: # ho gestito tutte le sillabate
+            self.salva_file()
+            app.window.destroy()
+            
         sillabata = self.sillabata_corrente
         index_paragrafo = self.index_paragrafi[0]
         
@@ -186,7 +188,14 @@ class EpubCleaner( Gtk.Application ):
         lbl_sillabata = self.builder.get_object( "sillabata" )
         lbl_sillabata.set_text( "Parola: " + sillabata )
 
+    def salva_file( self ):
+        # salvo le modifiche apportate in nome_fileModificato.html
+        with open("JurassicParkModificato.html", "wt") as file:
+            file.write( self.zuppa.prettify(
+                self.zuppa.original_encoding) ) 
+               
     def shutdown( self, app ):
+        print( app )
         if self.whitelist != []:
             # salvo la whitelist su file
             try:
@@ -195,6 +204,7 @@ class EpubCleaner( Gtk.Application ):
                         f.write("%s\n" % parola)
             except:
                 print( "CHI HA CANCELLATO IL FILE?!?!!?" )
+        app.quit()
         
 if __name__ == '__main__':
     app = EpubCleaner()
