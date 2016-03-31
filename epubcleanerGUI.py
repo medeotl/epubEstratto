@@ -14,6 +14,7 @@ import sys
 class EpubCleaner( Gtk.Application ):
 
     def __init__( self ):
+        print( "__init__()" )
         Gtk.Application.__init__(
             self,
             application_id="com.wordpress.laconcoide.epubcleaner",
@@ -40,6 +41,8 @@ class EpubCleaner( Gtk.Application ):
 
     def startup( self, app):
         # primo ad essere eseguito dopo __init__
+        # poi startup() o activate(), dipende da come lancio il progr.
+        print( "startup()" )
         self.builder = Gtk.Builder()
         self.builder.add_from_file( "correzione.glade" )
         self.builder.connect_signals( self )
@@ -47,11 +50,13 @@ class EpubCleaner( Gtk.Application ):
     
     def activate( self, app ):
         # app lanciata da SO (non da browser)
+        print( "activate()" )
         app.add_window( self.window )
         self.window.show_all()
 
     def open( self, app ):
         # gestione apertura da file browser
+        print( "open()" )
         pass
         
     def on_mantieni_clicked( self, button ):
