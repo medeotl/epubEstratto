@@ -69,15 +69,17 @@ class EpubCleaner( Gtk.Application ):
         cambiata = self.sillabata_corrente.replace( '-', '' )
         print("cambiata: %s ---> %s\n" % ( self.sillabata_corrente, 
                                            cambiata) )
-        # aggiorno il paragrafo
-        paragrafo = self.tag_paragrafi[self.idx_par_corrente].string 
-        paragrafo_corretto = paragrafo.replace( self.sillabata_corrente, 
-                                                cambiata )
-        self.tag_paragrafi[self.idx_par_corrente].string = \
-            paragrafo_corretto                                       
+        # aggiorno i paragrafi
+        for idx_par in self.index_paragrafi:
+            paragrafo = self.tag_paragrafi[idx_par].string 
+            paragrafo_corretto = paragrafo.replace( 
+                                                self.sillabata_corrente, 
+                                                cambiata 
+                                                )
+            self.tag_paragrafi[idx_par].string = paragrafo_corretto                                       
         # proseguo 
         print( "paragrafo_corretto: %s\n" % paragrafo_corretto )
-        self.aggiorna_GUI( *next(self.elenco_sillabate) )
+        self.aggiorna_GUI()
         
     def on_start_clicked( self, button ):
         # apro il file HTML di epub
