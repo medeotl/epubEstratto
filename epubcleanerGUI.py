@@ -37,7 +37,7 @@ class EpubCleaner( Gtk.Application ):
             
         print( "whitelist: %s" % self.whitelist )
 
-    def startup( self, app):
+    def startup( self, app ):
         # primo ad essere eseguito dopo __init__
         # poi startup() o activate(), dipende da come lancio il progr.
         self.builder = Gtk.Builder()
@@ -96,28 +96,6 @@ class EpubCleaner( Gtk.Application ):
             "bold red underlined" )
         self.trova_sillabate()
         
-    def trova_prox_sillabata( self ):
-        while self.offset < len(self.tag_paragrafi):
-            print( self.offset )
-            paragrafo = self.tag_paragrafi[self.offset].string
-            if paragrafo != None:  # paragrafo non vuoto, procedo
-                l = re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U)
-                if l != []: # paragrafo contiene una o più sillabate
-                    if l[0] in self.whitelist:
-                        print( "saltato %s\n" %l[0] )
-                    else:
-                        self.sillabata = l[0]
-                        self.aggiorna_GUI( paragrafo )
-                        self.offset += 1
-                        break
-            self.offset +=1
-        if self.offset == len(self.tag_paragrafi):
-            print( "Fine file raggiunto" )
-            # salvo le modifiche
-            with open("JurassicParkModificato.html", "wt") as file:
-                file.write( self.zuppa.prettify(
-                                self.zuppa.original_encoding) )
-
     def trova_sillabate( self ):
         # trova tutte le sillabate del file 00x.html
         # le pone in un dizionario del tipo { "sillabata", [14,21] }
