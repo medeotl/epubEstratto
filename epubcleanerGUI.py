@@ -57,6 +57,20 @@ class EpubCleaner( Gtk.Application ):
     def open( self, app ):
         # gestione apertura da file browser
         pass
+
+    def on_start_clicked( self, button ):
+        # creo elenco file html contenenti i capitoli dell'epub
+        # TODO: il file va selezionato e unzippato in dir apposita
+        
+        lista_file = []
+        
+        for file in os.listdir( self.working_dir ):
+            if file.endswith(".html"):
+                lista_file.append( file)
+        lista_file.sort()
+        print( lista_file )
+        self.lista_file = iter( lista_file )
+        self.trova_sillabate()
         
     def on_mantieni_clicked( self, button ):
         # passo alla prossima sillabata
@@ -85,20 +99,6 @@ class EpubCleaner( Gtk.Application ):
         #~ print( "paragrafo_corretto: %s\n" % paragrafo_corretto )
         self.aggiorna_GUI()
         
-    def on_start_clicked( self, button ):
-        # creo elenco file html contenenti i capitoli dell'epub
-        # TODO: il file va selezionato e unzippato in dir apposita
-        
-        lista_file = []
-        
-        for file in os.listdir( self.working_dir ):
-            if file.endswith(".html"):
-                lista_file.append( file)
-        lista_file.sort()
-        print( lista_file )
-        self.lista_file = iter( lista_file )
-        self.trova_sillabate()
-                
     def trova_sillabate( self ):
         # trova tutte le sillabate del file index_split_00x.html
         # le pone in un dizionario del tipo { "sillabata", [14,21] }
