@@ -105,7 +105,13 @@ class EpubCleaner( Gtk.Application ):
         # trova tutte le sillabate del file index_split_00x.html
         # le pone in un dizionario del tipo { "sillabata", [14,21] }
         
-        self.file_corrente = next( self.lista_file )
+        try:
+            self.file_corrente = next( self.lista_file )
+        except StopIteration: # FINE FILE EPUB!
+            print( " --- MODIFICHE TERMINATE ---" )
+            app.window.destroy()
+            return
+           
         print( "--- OPERO SU %s ---" % self.file_corrente )
         self.window.set_title(self.file_corrente)
         
