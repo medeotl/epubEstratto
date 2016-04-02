@@ -9,6 +9,7 @@ from bs4 import BeautifulSoup # browse del file HTML
 import re # ricerca parole in testo 
 from time import sleep # per ritardare eventi 
 
+import os
 import sys
 
 class EpubCleaner( Gtk.Application ):
@@ -23,6 +24,8 @@ class EpubCleaner( Gtk.Application ):
         self.connect("activate", self.activate)
         self.connect("shutdown", self.shutdown)
         
+        self.working_dir = "./epubs/JurassicPark/"
+        
         try:
             with open("./whitelist.txt") as f:
                 self.whitelist = f.read().splitlines()
@@ -36,6 +39,7 @@ class EpubCleaner( Gtk.Application ):
             f.close()
             
         print( "whitelist: %s" % self.whitelist )
+        
 
     def startup( self, app ):
         # primo ad essere eseguito dopo __init__
@@ -52,7 +56,6 @@ class EpubCleaner( Gtk.Application ):
 
     def open( self, app ):
         # gestione apertura da file browser
-        print( "open()" )
         pass
         
     def on_mantieni_clicked( self, button ):
@@ -79,26 +82,37 @@ class EpubCleaner( Gtk.Application ):
                                                 )
             self.tag_paragrafi[idx_par].string = paragrafo_corretto                                       
         # proseguo 
-        print( "paragrafo_corretto: %s\n" % paragrafo_corretto )
+        #~ print( "paragrafo_corretto: %s\n" % paragrafo_corretto )
         self.aggiorna_GUI()
         
     def on_start_clicked( self, button ):
-        # apro il file HTML di epub
-        self.zuppa = BeautifulSoup(
-            open( "./epubs/JurassicPark/index_split_003.html"), 
-            "lxml" )
-            #~ open( "./JurassicParkModificato.html"), 
-            #~ "lxml" )
+        # creo elenco file html contenenti i capitoli dell'epub
+        # TODO: il file va selezionato e unzippato in dir apposita
         
+        lista_file = []
+        
+        for file in os.listdir( self.working_dir ):
+            if file.endswith(".html"):
+                lista_file.append( file)
+        print( lista_file )
+        self.lista_file = iter( lista_file )
+        self.trova_sillabate()
+                
+    def trova_sillabate( self ):
+        # trova tutte le sillabate del file index_split_00x.html
+        # le pone in un dizionario del tipo { "sillabata", [14,21] }
+        
+        self.file_corrente = next( self.lista_file )
+        print( "--- OPERO SU %s ---" % self.file_corrente )
+        self.window.set_title(self.file_corrente)
+        
+        self.zuppa = BeautifulSoup( 
+            open( self.working_dir + self.file_corrente ), "lxml" )
+            
         self.tag_paragrafi = self.zuppa.find_all("p")
-        self.offset = 0
         self.tag_sillabata = self.builder.get_object( 
             "bold red underlined" )
-        self.trova_sillabate()
         
-    def trova_sillabate( self ):
-        # trova tutte le sillabate del file 00x.html
-        # le pone in un dizionario del tipo { "sillabata", [14,21] }
         diz_sillabate = {}
         for index, tag_paragrafo in enumerate( self.tag_paragrafi ):
             paragrafo = tag_paragrafo.string
@@ -123,13 +137,12 @@ class EpubCleaner( Gtk.Application ):
         lista_sillabate = sorted(diz_sillabate.items(), 
                                  key = lambda t: t[1]
                                  )
-        for sillabata, indexes in lista_sillabate:
-            print( sillabata, indexes )
+        #~ for sillabata, indexes in lista_sillabate:
+            #~ print( sillabata, indexes )
         # creo iterator per il risultato ottenuto
         self.elenco_sillabate = iter( lista_sillabate )
         # aggiorno la GUI con la prima sillabata trovata
         self.aggiorna_GUI()
-
 
     def aggiorna_GUI( self ):
         # isolo la frase contente la PROSSIMA sillabata dal paragrafo e 
@@ -140,7 +153,7 @@ class EpubCleaner( Gtk.Application ):
                 next(self.elenco_sillabate)
         except StopIteration: # ho gestito tutte le sillabate
             self.salva_file()
-            app.window.destroy()
+            return
             
         sillabata = self.sillabata_corrente
         index_paragrafo = self.index_paragrafi[0]
@@ -167,11 +180,13 @@ class EpubCleaner( Gtk.Application ):
         lbl_sillabata.set_text( "Parola: " + sillabata )
 
     def salva_file( self ):
-        # salvo le modifiche apportate in nome_fileModificato.html
-        with open("JurassicParkModificato.html", "wt") as file:
+        # salvo le modifiche apportate in "nome_fileModificato.html"
+        with open(self.file_corrente + "Modificato.html", "wt") as file:
             file.write( self.zuppa.prettify(
                 self.zuppa.original_encoding) ) 
-               
+        print( " --- SALVATO %sModificato.html" % self.file_corrente )
+        self.trova_sillabate()
+        
     def shutdown( self, app ):
         print( app )
         if self.whitelist != []:
