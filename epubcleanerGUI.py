@@ -48,6 +48,8 @@ class EpubCleaner( Gtk.Application ):
         self.builder.add_from_file( "correzione.glade" )
         self.builder.connect_signals( self )
         self.window = self.builder.get_object( "window" )
+        self.tag_sillabata = self.builder.get_object( 
+            "bold red underlined" )
     
     def activate( self, app ):
         # app lanciata da SO (non da browser)
@@ -111,8 +113,6 @@ class EpubCleaner( Gtk.Application ):
             open( self.working_dir + self.file_corrente ), "lxml" )
             
         self.tag_paragrafi = self.zuppa.find_all("p")
-        self.tag_sillabata = self.builder.get_object( 
-            "bold red underlined" )
         
         diz_sillabate = {}
         for index, tag_paragrafo in enumerate( self.tag_paragrafi ):
