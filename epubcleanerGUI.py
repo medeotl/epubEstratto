@@ -184,7 +184,7 @@ class EpubCleaner( Gtk.Application ):
         with open(self.file_corrente + "Modificato.html", "wt") as file:
             file.write( self.zuppa.prettify(
                 self.zuppa.original_encoding) ) 
-        print( " --- SALVATO %sModificato.html" % self.file_corrente )
+        print("--- SALVATO %s_Modificato.html" % self.file_corrente[:-5])
         self.trova_sillabate()
         
     def shutdown( self, app ):
