@@ -94,6 +94,7 @@ class EpubCleaner( Gtk.Application ):
         for file in os.listdir( self.working_dir ):
             if file.endswith(".html"):
                 lista_file.append( file)
+        lista_file.sort()
         print( lista_file )
         self.lista_file = iter( lista_file )
         self.trova_sillabate()
