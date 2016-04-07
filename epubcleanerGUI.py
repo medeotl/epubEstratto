@@ -77,14 +77,14 @@ class EpubCleaner( Gtk.Application ):
         self.trova_sillabate()
         
     def on_mantieni_clicked( self, button ):
-        self.keeplist.append( self.sillabata_corrente )
+        self.keeplist.append( self.sillabata_corrente.lower() )
         print( "KEEPLIST: %s" % self.keeplist )
         # passo alla prossima sillabata
         self.aggiorna_GUI()
         
     def on_whitelist_clicked( self, button ):
         # aggiungo la sillabata alla whitelist
-        self.whitelist.append( self.sillabata_corrente )
+        self.whitelist.append( self.sillabata_corrente.lower() )
         print( "WHITELIST: %s " % self.whitelist )
         self.aggiorna_GUI()
         
