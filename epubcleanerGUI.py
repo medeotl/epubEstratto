@@ -40,6 +40,8 @@ class EpubCleaner( Gtk.Application ):
             
         print( "whitelist: %s" % self.whitelist )
         
+        self.keeplist = [] # lista delle sillabate da mantenere
+        
 
     def startup( self, app ):
         # primo ad essere eseguito dopo __init__
@@ -75,13 +77,15 @@ class EpubCleaner( Gtk.Application ):
         self.trova_sillabate()
         
     def on_mantieni_clicked( self, button ):
+        self.keeplist.append( self.sillabata_corrente )
+        print( "KEEPLIST: %s" % self.keeplist )
         # passo alla prossima sillabata
         self.aggiorna_GUI()
         
     def on_whitelist_clicked( self, button ):
         # aggiungo la sillabata alla whitelist
-        print( "WHITELIST: aggiunta %s " % self.sillabata_corrente )
         self.whitelist.append( self.sillabata_corrente )
+        print( "WHITELIST: %s " % self.whitelist )
         self.aggiorna_GUI()
         
     def on_correggi_clicked( self, button ):
@@ -105,6 +109,7 @@ class EpubCleaner( Gtk.Application ):
         # trova tutte le sillabate del file index_split_00x.html
         # le pone in un dizionario del tipo { "sillabata", [14,21] }
         
+        # apro il file index_split_00x.html
         try:
             self.file_corrente = next( self.lista_file )
         except StopIteration: # FINE FILE EPUB!
@@ -126,14 +131,15 @@ class EpubCleaner( Gtk.Application ):
             if paragrafo != None:  # paragrafo non vuoto, procedo
                 l = re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U)
                 if l != []: # paragrafo contiene una o più sillabate
-                    # whitelist check
                     for sillabata in l:
-                        if sillabata in self.whitelist:
-                            print( "saltato %s\n" %sillabata )
-                            l.remove(sillabata)
-                    # memorizzo "ritrovamento"
-                    if l != []:
-                    	for sillabata in l:
+                        # whitelist check
+                        if sillabata.lower() in self.whitelist:
+                            print("whitelist ignorata: %s\n" %sillabata)
+                        # keeplist check
+                        elif sillabata.lower() in self.keeplist:
+                            print("keeplist ignorata: %s\n" %sillabata)
+                        # sillabata da gestire
+                        else:
                             if sillabata in diz_sillabate:
                                 diz_sillabate[sillabata].append(
                                     index)
@@ -188,10 +194,10 @@ class EpubCleaner( Gtk.Application ):
 
     def salva_file( self ):
         # salvo le modifiche apportate in "nome_fileModificato.html"
-        with open(self.file_corrente + "Modificato.html", "wt") as file:
-            file.write( self.zuppa.prettify(
-                self.zuppa.original_encoding) ) 
-        print("--- SALVATO %s_Modificato.html" % self.file_corrente[:-5])
+        nuovo_file_name = self.file_corrente[:-5] + "Modificato.html"
+        with open( nuovo_file_name, "wt") as file:
+            file.write( str(self.zuppa) ) 
+        print("--- SALVATO " + nuovo_file_name )
         self.trova_sillabate()
         
     def shutdown( self, app ):
