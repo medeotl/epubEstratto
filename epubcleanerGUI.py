@@ -137,7 +137,11 @@ class EpubCleaner( Gtk.Application ):
                             print("whitelist ignorata: %s\n" %sillabata)
                         # keeplist check
                         elif sillabata.lower() in self.keeplist:
+                            print( "*************************" )
+                            print( "*************************" )
                             print("keeplist ignorata: %s\n" %sillabata)
+                            print( "*************************" )
+                            print( "*************************" )
                         # sillabata da gestire
                         else:
                             if sillabata in diz_sillabate:
