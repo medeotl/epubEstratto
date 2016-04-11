@@ -2,6 +2,11 @@
 <!-- Generated with glade 3.19.0 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
+  <object class="GtkFileFilter" id="filefilter4epub">
+    <mime-types>
+      <mime-type>application/epub+zip</mime-type>
+    </mime-types>
+  </object>
   <object class="GtkTextTagTable" id="texttagtable1">
     <child type="tag">
       <object class="GtkTextTag" id="bold red underlined">
@@ -127,12 +132,11 @@
           </packing>
         </child>
         <child>
-          <object class="GtkButton" id="button4">
-            <property name="label" translatable="yes">START</property>
+          <object class="GtkFileChooserButton" id="filechooserbutton1">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
-            <property name="receives_default">True</property>
-            <signal name="clicked" handler="on_start_clicked" swapped="no"/>
+            <property name="can_focus">False</property>
+            <property name="filter">filefilter4epub</property>
+            <signal name="file-set" handler="on_epub_file_selected" swapped="no"/>
           </object>
           <packing>
             <property name="expand">False</property>

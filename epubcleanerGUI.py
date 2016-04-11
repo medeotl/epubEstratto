@@ -11,6 +11,7 @@ from time import sleep # per ritardare eventi
 
 import os
 import sys
+import zipfile
 
 class EpubCleaner( Gtk.Application ):
 
@@ -24,7 +25,7 @@ class EpubCleaner( Gtk.Application ):
         self.connect("activate", self.activate)
         self.connect("shutdown", self.shutdown)
         
-        self.working_dir = "./epubs/JurassicPark/"
+        self.working_dir = "./.epubunzipped/"
         
         try:
             with open("./whitelist.txt") as f:
@@ -62,10 +63,20 @@ class EpubCleaner( Gtk.Application ):
         # gestione apertura da file browser
         pass
 
+    def on_epub_file_selected( self, a):
+        print( type(a) )
+        print( a.get_filename() )
+
     def on_start_clicked( self, button ):
         # creo elenco file html contenenti i capitoli dell'epub
         # TODO: il file va selezionato e unzippato in dir apposita
         
+        libro = "/home/medeo/Documents/ebook/sfumature.epub"
+        
+        #estraggo il libro
+        with zipfile.ZipFile( libro, 'r' ) as epub:
+            epub.extractall( self.working_dir )
+            
         lista_file = []
         
         for file in os.listdir( self.working_dir ):
