@@ -64,14 +64,13 @@ class EpubCleaner( Gtk.Application ):
         pass
 
     def on_epub_file_selected( self, a):
-        print( type(a) )
         print( a.get_filename() )
+        self.scompatta( a.get_filename() )
 
-    def on_start_clicked( self, button ):
-        # creo elenco file html contenenti i capitoli dell'epub
-        # TODO: il file va selezionato e unzippato in dir apposita
+    def scompatta( self, libro ):
+        # scompatto libro e creo elenco file html contenenti i capitoli
         
-        libro = "/home/medeo/Documents/ebook/sfumature.epub"
+        #~ libro = "/home/medeo/Documents/ebook/sfumature.epub"
         
         #estraggo il libro
         with zipfile.ZipFile( libro, 'r' ) as epub:
