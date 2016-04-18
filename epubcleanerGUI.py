@@ -68,7 +68,11 @@ class EpubCleaner( Gtk.Application ):
         libro = a.get_filename()
         print( "Libro: %s " % libro )
         
-        #scompatto il libro (la directory è creata automaticamente)
+        # rimuovo vecchia directory working_dir
+        import shutil
+        shutil.rmtree( self.working_dir )
+        
+        # scompatto il libro (la directory è creata automaticamente)
         with zipfile.ZipFile( libro, 'r' ) as epub:
             epub.extractall( self.working_dir )
         
@@ -211,15 +215,18 @@ class EpubCleaner( Gtk.Application ):
         self.trova_sillabate()
         
     def shutdown( self, app ):
-        print( app )
+        """ chiusura programma """
+        # salvo le aggiunte alla whitelist
         if self.whitelist != []:
-            # salvo la whitelist su file
             try:
                 with open("whitelist.txt", 'a') as f:
                     for parola in self.whitelist[self.original_lenght:]:
                         f.write("%s\n" % parola)
             except:
                 print( "CHI HA CANCELLATO IL FILE?!?!!?" )
+                
+        # TODO: zippare working_dir per creare nuovo  epub
+                
         app.quit()
         
 if __name__ == '__main__':
