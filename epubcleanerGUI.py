@@ -64,6 +64,7 @@ class EpubCleaner( Gtk.Application ):
         pass
 
     def on_epub_file_selected( self, a):
+        # ho selezionato il file tramite GtkFileChooserButton
         print( a.get_filename() )
         self.scompatta( a.get_filename() )
 
@@ -72,7 +73,7 @@ class EpubCleaner( Gtk.Application ):
         
         #~ libro = "/home/medeo/Documents/ebook/sfumature.epub"
         
-        #estraggo il libro
+        #estraggo il libro (la directory è creata automaticamente)
         with zipfile.ZipFile( libro, 'r' ) as epub:
             epub.extractall( self.working_dir )
             
@@ -82,7 +83,7 @@ class EpubCleaner( Gtk.Application ):
             if file.endswith(".html"):
                 lista_file.append( file)
         lista_file.sort()
-        print( lista_file )
+        print( "lista file: %s" % lista_file )
         self.lista_file = iter( lista_file )
         self.trova_sillabate()
         
