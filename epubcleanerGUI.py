@@ -63,9 +63,9 @@ class EpubCleaner( Gtk.Application ):
         # gestione apertura da file browser
         pass
 
-    def on_epub_file_selected( self, a):
+    def on_epub_file_selected( self, file):
         # ho selezionato il file tramite GtkFileChooserButton
-        libro = a.get_filename()
+        libro = file.get_filename()
         print( "Libro: %s " % libro )
         
         # rimuovo vecchia directory working_dir
@@ -77,6 +77,7 @@ class EpubCleaner( Gtk.Application ):
             epub.extractall( self.working_dir )
         
         # creo lista file html da controllare
+        # TODO: creare lista file in base a versione epub 
         lista_file = []
         for file in os.listdir( self.working_dir ):
             if file.endswith(".html"):
