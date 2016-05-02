@@ -13,6 +13,7 @@ import os
 import sys
 import zipfile
 
+
 class EpubCleaner( Gtk.Application ):
 
     def __init__( self ):
@@ -32,7 +33,7 @@ class EpubCleaner( Gtk.Application ):
                 self.whitelist = f.read().splitlines()
                 self.original_lenght = len(self.whitelist)
         except:
-            print( "FILE NON PRESENTE" )
+            print( "FILE WHITELIST NON PRESENTE" )
             self.whitelist = []
             self.original_lenght = 0
             #creo il file
@@ -63,7 +64,7 @@ class EpubCleaner( Gtk.Application ):
         # gestione apertura da file browser
         pass
 
-    def on_epub_file_selected( self, file):
+    def on_epub_file_selected( self, file ):
         # ho selezionato il file tramite GtkFileChooserButton
         libro = file.get_filename()
         print( "Libro: %s " % libro )
@@ -76,12 +77,18 @@ class EpubCleaner( Gtk.Application ):
         with zipfile.ZipFile( libro, 'r' ) as epub:
             epub.extractall( self.working_dir )
         
+        # file presenti in ./ o ./OEBPS/Text/ 
+        if os.path.exists( self.working_dir + "OEBPS/Text/" ):
+            # i files sono nella directory /OEBPS/Text
+            self.working_dir = self.working_dir + "OEBPS/Text/"
+        
+        print( "files_dir: %s" % self.working_dir )
         # creo lista file html da controllare
-        # TODO: creare lista file in base a versione epub 
         lista_file = []
         for file in os.listdir( self.working_dir ):
             if file.endswith(".html"):
-                lista_file.append( file)
+                lista_file.append( file )
+                
         lista_file.sort()
         print( "lista file: %s" % lista_file )
         self.lista_file = iter( lista_file )
