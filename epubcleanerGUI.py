@@ -86,7 +86,7 @@ class EpubCleaner( Gtk.Application ):
         # creo lista file html da controllare
         lista_file = []
         for file in os.listdir( self.working_dir ):
-            if file.endswith(".html"):
+            if file.endswith("html") or file.endswith("htm"):
                 lista_file.append( file )
                 
         lista_file.sort()
