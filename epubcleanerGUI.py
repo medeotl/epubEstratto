@@ -44,7 +44,6 @@ class EpubCleaner( Gtk.Application ):
         
         self.keeplist = [] # lista delle sillabate da mantenere
         
-
     def startup( self, app ):
         # primo ad essere eseguito dopo __init__
         # poi startup() o activate(), dipende da come lancio il progr.
@@ -215,8 +214,9 @@ class EpubCleaner( Gtk.Application ):
         lbl_sillabata.set_text( "Parola: " + sillabata )
 
     def salva_file( self ):
-        # salvo le modifiche apportate in "nome_fileModificato.html"
-        nuovo_file_name = self.file_corrente[:-5] + "Modificato.html"
+        # salvo le modifiche apportate in "nome_fileModificato"
+        nome, estensione = self.file_corrente.split('.')
+        nuovo_file_name = nome + "Modificato." + estensione
         with open( nuovo_file_name, "wt") as file:
             file.write( str(self.zuppa) ) 
         print("--- SALVATO " + nuovo_file_name )
