@@ -123,10 +123,10 @@ class EpubCleaner( Gtk.Application ):
         self.aggiorna_GUI()
         
     def trova_sillabate( self ):
-        # trova tutte le sillabate del file index_split_00x.html
+        # trova tutte le sillabate del file .[x]htm[l]
         # le pone in un dizionario del tipo { "sillabata", [14,21] }
         
-        # apro il file index_split_00x.html
+        # apro il file [x]htm[l]
         try:
             self.file_corrente = next( self.lista_file )
         except StopIteration: # FINE FILE EPUB!
@@ -135,10 +135,10 @@ class EpubCleaner( Gtk.Application ):
             return
            
         print( "--- OPERO SU %s ---" % self.file_corrente )
-        self.window.set_title(self.file_corrente)
+        self.window.set_title( self.file_corrente )
         
         self.zuppa = BeautifulSoup( 
-            open( self.working_dir + self.file_corrente ), "lxml" )
+            open( self.working_dir+self.file_corrente ), "lxml" )
             
         self.tag_paragrafi = self.zuppa.find_all("p")
         
@@ -214,12 +214,10 @@ class EpubCleaner( Gtk.Application ):
         lbl_sillabata.set_text( "Parola: " + sillabata )
 
     def salva_file( self ):
-        # salvo le modifiche apportate in "nome_fileModificato"
-        nome, estensione = self.file_corrente.split('.')
-        nuovo_file_name = nome + "Modificato." + estensione
-        with open( nuovo_file_name, "wt") as file:
+        # salvo le modifiche apportate
+        with open( self.working_dir+self.file_corrente, "wt") as file:
             file.write( str(self.zuppa) ) 
-        print("--- SALVATO " + nuovo_file_name )
+        print("--- SALVATO " + self.file_corrente )
         self.trova_sillabate()
         
     def shutdown( self, app ):
