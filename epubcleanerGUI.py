@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 import gi
@@ -26,6 +26,7 @@ class EpubCleaner( Gtk.Application ):
         self.connect("activate", self.activate)
         self.connect("shutdown", self.shutdown)
         
+        os.chdir("/DATI/Coding/epubEstratto/")
         self.working_dir = "./.epubunzipped/"
         
         try:
@@ -55,12 +56,12 @@ class EpubCleaner( Gtk.Application ):
             "bold red underlined" )
     
     def activate( self, app ):
-        # app lanciata da SO (non da browser)
+        # app lanciata da SO (non da file manager)
         app.add_window( self.window )
         self.window.show_all()
 
     def open( self, app ):
-        # gestione apertura da file browser
+        # gestione apertura da file manager
         pass
 
     def on_epub_file_selected( self, file ):
