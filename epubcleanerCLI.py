@@ -11,7 +11,7 @@ import re
 
 def listaSillabate( paragrafo ):
     # ritorna lista sillabate (anche vuota) presenti nel paragrafo
-    return re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U)
+    return re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U )
 
 def correggiSillabateCLI( paragrafo, lista_sillabate ):
     if lista_sillabate != []:
@@ -21,17 +21,17 @@ def correggiSillabateCLI( paragrafo, lista_sillabate ):
             cambiare = input( "cambiare? [S|n]: " )
             if cambiare != 'n':
                 cambiata = sillabata.replace( '-', '' )
-                print("cambiata: " + cambiata)
+                print( "cambiata: " + cambiata )
                 paragrafo = paragrafo.replace( sillabata, cambiata )
                 tag_paragrafo.string = paragrafo
-                print( "\n--- CAMBIATA ---\n")
+                print( "\n--- CAMBIATA ---\n" )
 
 # ---- MAIN ----
 
-zuppa = BeautifulSoup(open("./epubs/JurassicPark/index_split_000.html"),
+zuppa = BeautifulSoup( open("./epubs/JurassicPark/index_split_000.html"),
                       "lxml" )
 
-for tag_paragrafo in zuppa.find_all("p"):
+for tag_paragrafo in zuppa.find_all( "p" ):
     paragrafo = tag_paragrafo.string
     if paragrafo != None:
         l = listaSillabate( paragrafo )
@@ -40,9 +40,9 @@ for tag_paragrafo in zuppa.find_all("p"):
             correggiSillabateCLI( paragrafo, l )
 
 # salvo i risultati
-with open("JurassicPark000Modificato.html", "wt") as file:
+with open( "JurassicPark000Modificato.html", "wt" ) as file:
     file.write( zuppa.prettify(zuppa.original_encoding) )
 
 # Riferimenti:
 # http://www.crummy.com/software/BeautifulSoup/bs4/doc/#modifying-the-tree
-# http://stackoverflow.com/questions/3276040/how-can-i-use-the-python-htmlparser-library-to-extract-data-from-a-specific-div      
+# http://stackoverflow.com/questions/3276040/how-can-i-use-the-python-htmlparser-library-to-extract-data-from-a-specific-div
