@@ -13,7 +13,6 @@ import os
 import sys
 import zipfile
 
-
 class EpubCleaner( Gtk.Application ):
 
     def __init__( self ):
@@ -66,7 +65,7 @@ class EpubCleaner( Gtk.Application ):
     def on_epub_file_selected( self, file ):
         # ho selezionato il file tramite GtkFileChooserButton
         libro = file.get_filename()
-        print( "Libro: %s " % libro )
+        print( "Libro: %s \n" % libro )
 
         # rimuovo vecchia directory working_dir
         import shutil
@@ -81,7 +80,7 @@ class EpubCleaner( Gtk.Application ):
             # i files sono nella directory /OEBPS/Text
             self.working_dir = self.working_dir + "OEBPS/Text/"
 
-        print( "files_dir: %s" % self.working_dir )
+        print( "files_dir: %s \n" % self.working_dir )
         # creo lista file html da controllare
         lista_file = []
         for file in os.listdir( self.working_dir ):
@@ -89,27 +88,27 @@ class EpubCleaner( Gtk.Application ):
                 lista_file.append( file )
 
         lista_file.sort()
-        print( "lista file: %s" % lista_file )
+        print( "lista file: %s \n" % lista_file )
         self.lista_file = iter( lista_file )
         self.trova_sillabate()
 
     def on_mantieni_clicked( self, button ):
         self.keeplist.append( self.sillabata_corrente.lower() )
-        print( "KEEPLIST: %s" % self.keeplist )
+        print( "KEEPLIST: %s \n" % self.keeplist )
         # passo alla prossima sillabata
         self.aggiorna_GUI()
 
     def on_whitelist_clicked( self, button ):
         # aggiungo la sillabata alla whitelist
         self.whitelist.append( self.sillabata_corrente.lower() )
-        print( "WHITELIST: %s " % self.whitelist )
+        print( "WHITELIST: %s \n" % self.whitelist )
         self.aggiorna_GUI()
 
     def on_correggi_clicked( self, button ):
         # correggo la sillabata
         cambiata = self.sillabata_corrente.replace( '-', '' )
-        print( "cambiata: %s ---> %s\n" % ( self.sillabata_corrente,
-                                           cambiata) )
+        print( "cambiata: %s ---> %s \n" % (self.sillabata_corrente, cambiata) )
+
         # aggiorno i paragrafi
         for idx_par in self.index_paragrafi:
             paragrafo = self.tag_paragrafi[idx_par].string
@@ -119,7 +118,7 @@ class EpubCleaner( Gtk.Application ):
                                                 )
             self.tag_paragrafi[idx_par].string = paragrafo_corretto
         # proseguo
-        #~ print( "paragrafo_corretto: %s\n" % paragrafo_corretto )
+        #~ print( "paragrafo_corretto: %s \n" % paragrafo_corretto )
         self.aggiorna_GUI()
 
     def trova_sillabate( self ):
@@ -130,11 +129,11 @@ class EpubCleaner( Gtk.Application ):
         try:
             self.file_corrente = next( self.lista_file )
         except StopIteration: # FINE FILE EPUB!
-            print( " --- MODIFICHE TERMINATE ---" )
+            print( " --- MODIFICHE TERMINATE --- \n" )
             app.window.destroy()
             return
 
-        print( "--- OPERO SU %s ---" % self.file_corrente )
+        print( "--- OPERO SU %s --- \n" % self.file_corrente )
         self.window.set_title( self.file_corrente )
 
         self.zuppa = BeautifulSoup(
@@ -151,14 +150,14 @@ class EpubCleaner( Gtk.Application ):
                     for sillabata in l:
                         # whitelist check
                         if sillabata.lower() in self.whitelist:
-                            print( "whitelist ignorata: %s\n" %sillabata )
+                            print( "whitelist ignorata: %s \n" %sillabata )
                         # keeplist check
                         elif sillabata.lower() in self.keeplist:
                             print( "*************************" )
                             print( "*************************" )
-                            print( "keeplist ignorata: %s\n" %sillabata )
+                            print( "keeplist ignorata: %s" %sillabata )
                             print( "*************************" )
-                            print( "*************************" )
+                            print( "************************* \n" )
                         # sillabata da gestire
                         else:
                             if sillabata in diz_sillabate:
@@ -219,7 +218,7 @@ class EpubCleaner( Gtk.Application ):
         nuovo_file_name = nome + "Modificato." + estensione
         with open( nuovo_file_name, "wt" ) as file:
             file.write( str(self.zuppa) )
-        print( "--- SALVATO " + nuovo_file_name )
+        print( "--- SALVATO " + nuovo_file_name + "\n")
         self.trova_sillabate()
 
     def shutdown( self, app ):
@@ -231,7 +230,7 @@ class EpubCleaner( Gtk.Application ):
                     for parola in self.whitelist[self.original_lenght:]:
                         f.write( "%s\n" % parola )
             except:
-                print( "CHI HA CANCELLATO IL FILE?!?!!?" )
+                print( "CHI HA CANCELLATO IL FILE?!?!!? \n" )
 
         # TODO: zippare working_dir per creare nuovo  epub
 
