@@ -64,6 +64,15 @@ class EpubCleaner( Gtk.Application ):
 
     def on_epub_file_selected( self, file ):
         # ho selezionato il file tramite GtkFileChooserButton
+
+        # riabilito i pulsanti
+        btnMantieni = self.builder.get_object( "btnMantieni" )
+        btnWhitelist = self.builder.get_object( "btnWhitelist" )
+        btnCorreggi = self.builder.get_object( "btnCorreggi" )
+        btnMantieni.set_sensitive( True )
+        btnWhitelist.set_sensitive( True )
+        btnCorreggi.set_sensitive( True )
+
         libro = file.get_filename()
         print( "Libro: %s \n" % libro )
 

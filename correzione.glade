@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.19.0 -->
+<!-- Generated with glade 3.38.2 -->
 <interface>
   <requires lib="gtk+" version="3.16"/>
   <object class="GtkFileFilter" id="filefilter4epub">
@@ -13,30 +13,30 @@
         <property name="font">Normal</property>
         <property name="weight">700</property>
         <property name="underline">single</property>
-        <property name="underline_rgba">rgb(204,0,0)</property>
+        <property name="underline-rgba">rgb(204,0,0)</property>
       </object>
     </child>
   </object>
   <object class="GtkTextBuffer" id="txtbfrFrase">
-    <property name="tag_table">texttagtable1</property>
+    <property name="tag-table">texttagtable1</property>
   </object>
   <object class="GtkApplicationWindow" id="window">
-    <property name="can_focus">False</property>
-    <property name="border_width">6</property>
+    <property name="can-focus">False</property>
+    <property name="border-width">6</property>
     <property name="title" translatable="yes">parola sillabata</property>
-    <property name="window_position">center</property>
-    <property name="default_width">420</property>
-    <property name="default_height">300</property>
+    <property name="window-position">center</property>
+    <property name="default-width">420</property>
+    <property name="default-height">300</property>
     <child>
       <object class="GtkBox" id="box1">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
+        <property name="can-focus">False</property>
         <property name="orientation">vertical</property>
         <property name="spacing">6</property>
         <child>
           <object class="GtkLabel" id="label1">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="label" translatable="yes">Frase</property>
             <property name="xalign">0.019999999552965164</property>
           </object>
@@ -49,9 +49,9 @@
         <child>
           <object class="GtkTextView" id="frase">
             <property name="visible">True</property>
-            <property name="can_focus">True</property>
+            <property name="can-focus">True</property>
             <property name="editable">False</property>
-            <property name="wrap_mode">word</property>
+            <property name="wrap-mode">word</property>
             <property name="buffer">txtbfrFrase</property>
           </object>
           <packing>
@@ -63,7 +63,7 @@
         <child>
           <object class="GtkLabel" id="sillabata">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="label" translatable="yes">Parola:</property>
             <property name="xalign">0.019999999552965164</property>
           </object>
@@ -76,15 +76,16 @@
         <child>
           <object class="GtkButtonBox" id="buttonbox1">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
-            <property name="layout_style">spread</property>
+            <property name="can-focus">False</property>
+            <property name="layout-style">spread</property>
             <child>
-              <object class="GtkButton" id="button1">
+              <object class="GtkButton" id="btnMantieni">
                 <property name="label" translatable="yes">mantieni</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="tooltip_text" translatable="yes">Lascia intatta la parola</property>
+                <property name="sensitive">False</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Lascia intatta la parola</property>
                 <signal name="clicked" handler="on_mantieni_clicked" swapped="no"/>
               </object>
               <packing>
@@ -94,12 +95,13 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button2">
+              <object class="GtkButton" id="btnWhitelist">
                 <property name="label" translatable="yes">whitelist</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="tooltip_text" translatable="yes">Lascia intatta la parola e la inserisce in una whitelist</property>
+                <property name="sensitive">False</property>
+                <property name="can-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Lascia intatta la parola e la inserisce in una whitelist</property>
                 <signal name="clicked" handler="on_whitelist_clicked" swapped="no"/>
               </object>
               <packing>
@@ -109,13 +111,14 @@
               </packing>
             </child>
             <child>
-              <object class="GtkButton" id="button3">
+              <object class="GtkButton" id="btnCorreggi">
                 <property name="label" translatable="yes">correggi</property>
                 <property name="visible">True</property>
-                <property name="can_focus">True</property>
-                <property name="has_focus">True</property>
-                <property name="receives_default">True</property>
-                <property name="tooltip_text" translatable="yes">Corregge la parola nell'ebook togliendo il trattino</property>
+                <property name="sensitive">False</property>
+                <property name="can-focus">True</property>
+                <property name="has-focus">True</property>
+                <property name="receives-default">True</property>
+                <property name="tooltip-text" translatable="yes">Corregge la parola nell'ebook togliendo il trattino</property>
                 <signal name="clicked" handler="on_correggi_clicked" swapped="no"/>
               </object>
               <packing>
@@ -134,7 +137,7 @@
         <child>
           <object class="GtkFileChooserButton" id="filechooserbutton1">
             <property name="visible">True</property>
-            <property name="can_focus">False</property>
+            <property name="can-focus">False</property>
             <property name="filter">filefilter4epub</property>
             <signal name="file-set" handler="on_epub_file_selected" swapped="no"/>
           </object>
