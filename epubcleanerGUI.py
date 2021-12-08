@@ -70,7 +70,7 @@ class EpubCleaner( Gtk.Application ):
 
         # rimuovo vecchia directory working_dir
         import shutil
-        shutil.rmtree( self.working_dir )
+        shutil.rmtree( self.working_dir, ignore_errors=True )
 
         # scompatto il libro (la directory è creata automaticamente)
         with zipfile.ZipFile( libro, 'r' ) as epub:
