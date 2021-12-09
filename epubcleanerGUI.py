@@ -227,7 +227,7 @@ class EpubCleaner( Gtk.Application ):
         # salvo le modifiche apportate in "nome_fileModificato"
         nome, estensione = self.file_corrente.split( '.' )
         nuovo_file_name = nome + "Modificato." + estensione
-        with open( nuovo_file_name, "wt" ) as file:
+        with open( self.working_dir + nuovo_file_name, "wt" ) as file:
             file.write( str(self.zuppa) )
         print( "--- SALVATO " + nuovo_file_name + "\n")
         self.trova_sillabate()
