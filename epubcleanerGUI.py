@@ -85,6 +85,8 @@ class EpubCleaner( Gtk.Application ):
             epub.extractall( self.working_dir )
 
         # file presenti in ./ o ./OEBPS/Text/
+        #TODO gestire correttamente working_dir
+        # file possono essere anche in /OEBPS/ (es. Da dove entra la luce)
         if os.path.exists( self.working_dir + "OEBPS/Text/" ):
             # i files sono nella directory /OEBPS/Text
             self.working_dir = self.working_dir + "OEBPS/Text/"
