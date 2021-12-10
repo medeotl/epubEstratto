@@ -133,10 +133,11 @@ class EpubCleaner( Gtk.Application ):
         self.aggiorna_GUI()
 
     def trova_sillabate( self ):
-        # trova tutte le sillabate del file index_split_00x.html
+        # trova tutte le sillabate presenti nei file html
         # le pone in un dizionario del tipo { "sillabata", [14,21] }
+        # dove 14 e 21 sono i paragrafi in cui è presente la parola sillabata
 
-        # apro il file index_split_00x.html
+        # apro il file html
         try:
             self.file_corrente = next( self.lista_file )
         except StopIteration: # FINE FILE EPUB!
