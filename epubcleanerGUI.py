@@ -182,8 +182,9 @@ class EpubCleaner( Gtk.Application ):
         lista_sillabate = sorted( diz_sillabate.items(),
                                   key = lambda t: t[1]
                                   )
-        #~ for sillabata, indexes in lista_sillabate:
-            #~ print( sillabata, indexes )
+        # ~ for sillabata, indexes in lista_sillabate:
+            # ~ print( sillabata, indexes, "\n")
+
         # creo iterator per il risultato ottenuto
         self.elenco_sillabate = iter( lista_sillabate )
         # aggiorno la GUI con la prima sillabata trovata
