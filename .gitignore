@@ -1,0 +1,12 @@
+.gitignore
+*.pyc
+./__pycache__
+./epubs
+prove*.py
+*.glade~
+*.html
+percorsi.txt
+paginatedtextdocument.txt
+provaTracker.py
+./epubs/*
+./.epubunzipped/
