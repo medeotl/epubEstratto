@@ -230,12 +230,10 @@ class EpubCleaner( Gtk.Application ):
         lbl_sillabata.set_text( "Parola: " + sillabata )
 
     def salva_file( self ):
-        # salvo le modifiche apportate in "nome_fileModificato"
-        nome, estensione = self.file_corrente.split( '.' )
-        nuovo_file_name = nome + "Modificato." + estensione
-        with open( self.working_dir + nuovo_file_name, "wt" ) as file:
+        # salvo le modifiche apportate
+        with open( self.working_dir + self.file_corrente, "wt" ) as file:
             file.write( str(self.zuppa) )
-        print( "--- SALVATO " + nuovo_file_name + "\n")
+        print( "--- SALVATO " + self.file_corrente + "\n")
         self.trova_sillabate()
 
     def shutdown( self, app ):
