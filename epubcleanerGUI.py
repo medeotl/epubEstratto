@@ -49,8 +49,7 @@ class EpubCleaner( Gtk.Application ):
         self.builder.add_from_file( "correzione.glade" )
         self.builder.connect_signals( self )
         self.window = self.builder.get_object( "window" )
-        self.tag_sillabata = self.builder.get_object(
-            "bold red underlined" )
+        self.tag_sillabata = self.builder.get_object( "bold red underlined" )
 
     def activate( self, app ):
         # app lanciata da SO (non da browser)
@@ -176,6 +175,12 @@ class EpubCleaner( Gtk.Application ):
                                     index)
                             else:
                                 diz_sillabate[sillabata] = [ index ]
+
+        if len( diz_sillabate ) == 0:
+            # il file corrente non contiene sillabate
+            # passo al prossimo
+            self.trova_sillabate ()
+            return
 
         # ordino il dizionario per index paragrafo
         lista_sillabate = sorted( diz_sillabate.items(),
