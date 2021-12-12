@@ -140,6 +140,11 @@ class EpubCleaner( Gtk.Application ):
             self.file_corrente = next( self.lista_file )
         except StopIteration: # FINE FILE EPUB!
             print( " --- MODIFICHE TERMINATE --- \n" )
+            # ricreo il file epub
+            import shutil
+            shutil.make_archive("ebook MODIFICATO", "zip", ".epubunzipped")
+            os.rename("ebook MODIFICATO.zip", "ebook MODIFICATO.epub")
+
             app.window.destroy()
             return
 
