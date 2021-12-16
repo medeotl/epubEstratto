@@ -149,7 +149,8 @@ class EpubCleaner( Gtk.Application ):
             return
 
         print( "--- OPERO SU %s --- \n" % self.file_corrente )
-        self.window.set_title( self.file_corrente )
+        headerbar = self.builder.get_object( "headerbar" )
+        headerbar.set_subtitle( self.file_corrente )
 
         self.zuppa = BeautifulSoup(
             open( self.working_dir + self.file_corrente ), "lxml" )

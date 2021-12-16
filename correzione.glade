@@ -7,7 +7,7 @@
       <mime-type>application/epub+zip</mime-type>
     </mime-types>
   </object>
-  <object class="GtkPopover" id="popover1">
+  <object class="GtkPopover" id="popover">
     <property name="can-focus">False</property>
     <child>
       <object class="GtkBox">
@@ -55,6 +55,19 @@
         </child>
       </object>
     </child>
+  </object>
+  <object class="GtkTextTagTable" id="texttagtable1">
+    <child type="tag">
+      <object class="GtkTextTag" id="bold red underlined">
+        <property name="font">Normal</property>
+        <property name="weight">700</property>
+        <property name="underline">single</property>
+        <property name="underline-rgba">rgb(204,0,0)</property>
+      </object>
+    </child>
+  </object>
+  <object class="GtkTextBuffer" id="txtbfrFrase">
+    <property name="tag-table">texttagtable1</property>
   </object>
   <object class="GtkApplicationWindow" id="window">
     <property name="can-focus">False</property>
@@ -184,7 +197,7 @@
       </object>
     </child>
     <child type="titlebar">
-      <object class="GtkHeaderBar">
+      <object class="GtkHeaderBar" id="headerbar">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
         <property name="title" translatable="yes">ePub Cleaner</property>
@@ -195,7 +208,7 @@
             <property name="can-focus">True</property>
             <property name="focus-on-click">False</property>
             <property name="receives-default">True</property>
-            <property name="popover">popover1</property>
+            <property name="popover">popover</property>
             <child>
               <object class="GtkImage">
                 <property name="visible">True</property>
@@ -211,18 +224,5 @@
         </child>
       </object>
     </child>
-  </object>
-  <object class="GtkTextTagTable" id="texttagtable1">
-    <child type="tag">
-      <object class="GtkTextTag" id="bold red underlined">
-        <property name="font">Normal</property>
-        <property name="weight">700</property>
-        <property name="underline">single</property>
-        <property name="underline-rgba">rgb(204,0,0)</property>
-      </object>
-    </child>
-  </object>
-  <object class="GtkTextBuffer" id="txtbfrFrase">
-    <property name="tag-table">texttagtable1</property>
   </object>
 </interface>
