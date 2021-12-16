@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<interface>
+  <object class="GtkShortcutsWindow" id="window">
+    <child>
+      <object class="GtkShortcutsSection">
+        <property name="visible">True</property>
+        <child>
+          <object class="GtkShortcutsGroup">
+            <property name="title" translatable="yes">Generale</property>
+            <property name="visible">True</property>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="accelerator">m</property>
+                <property name="title" translatable="yes">Mantieni la parola corrente</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="accelerator">w</property>
+                <property name="title" translatable="yes">Aggiungi la parola all'elenco delle sillabate</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="accelerator">c</property>
+                <property name="title" translatable="yes">Correggi la parola</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
+                <property name="accelerator">&lt;Primary&gt;q</property>
+                <property name="title" translatable="yes">Termina il programma</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
+          </object>
+        </child>
+      </object>
+    </child>
+  </object>
+</interface>
