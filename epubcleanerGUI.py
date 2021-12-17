@@ -252,9 +252,6 @@ class EpubCleaner( Gtk.Application ):
                         f.write( "%s\n" % parola )
             except:
                 print( "CHI HA CANCELLATO IL FILE?!?!!? \n" )
-
-        # TODO: zippare working_dir per creare nuovo  epub
-
         app.quit()
 
 if __name__ == '__main__':
