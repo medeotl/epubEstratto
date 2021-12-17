@@ -242,6 +242,22 @@ class EpubCleaner( Gtk.Application ):
         print( "--- SALVATO " + self.file_corrente + "\n")
         self.trova_sillabate()
 
+    def mostra_preferenze( self, modalBtnPreferenze ):
+        print( "@@@ preferenze" )
+        print( """
+        @@@ Abbiamo parlato delle nostre preferenze e dei nostri gusti e
+        abbiamo scoperto che ci piacciono gli stessi batteri.  W. Allen""" )
+
+    def mostra_shortcuts( self, modalBtnShortcuts ):
+        print( "@@@ shortcuts" )
+
+    def mostra_about( self, modalBtnAbout ):
+        print( "@@@ about" )
+        self.builder.add_from_file( "about.ui" )
+        about_dialog = self.builder.get_object( "dlgAbout" )
+        about_dialog.connect( "close", lambda: about_dialog.destroy() )
+        about_dialog.show_all()
+
     def shutdown( self, app ):
         """ chiusura programma """
         # salvo le aggiunte alla whitelist
