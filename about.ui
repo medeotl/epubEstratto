@@ -12,9 +12,14 @@
     <property name="comments" translatable="yes">Ripulisce i tuoi epub dalle sillabate in eccesso</property>
     <property name="website">https://github.com/medeotl/epubEstratto</property>
     <property name="website-label" translatable="yes">Visita la pagina GitHub di EPub Cleaner</property>
+    <property name="license" translatable="yes">EPub Cleaner is free software; you can redistribute it and/or modify it under the terms of the GNU General Public Licence as published by the Free Software Foundation, either version 3 of the Licence, or (at your option) any later version.
+
+EPub Cleaner is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public Licence for more details.
+
+You should have received a copy of the GNU General Public Licence along with EPub Cleaner.  If not, see &lt;http://www.gnu.org/licenses/&gt;.</property>
     <property name="authors">Nicomede Fasiello</property>
     <property name="logo-icon-name">application-x-executable</property>
-    <property name="license-type">gpl-3-0</property>
+    <property name="wrap-license">True</property>
     <child internal-child="vbox">
       <object class="GtkBox">
         <property name="can-focus">False</property>
