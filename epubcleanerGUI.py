@@ -252,11 +252,9 @@ class EpubCleaner( Gtk.Application ):
         print( "@@@ shortcuts" )
 
     def mostra_about( self, modalBtnAbout ):
-        print( "@@@ about" )
         self.builder.add_from_file( "about.ui" )
         about_dialog = self.builder.get_object( "dlgAbout" )
         about_dialog.set_transient_for( self.window )
-        print( "@@@ ", self.window.get_title() )
         about_dialog.connect( "close", lambda: about_dialog.destroy() )
         about_dialog.show_all()
 
