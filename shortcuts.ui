@@ -31,6 +31,13 @@
             </child>
             <child>
               <object class="GtkShortcutsShortcut">
+                <property name="accelerator">&lt;Primary&gt;question</property>
+                <property name="title" translatable="yes">Mostra questa finestra</property>
+                <property name="visible">True</property>
+              </object>
+            </child>
+            <child>
+              <object class="GtkShortcutsShortcut">
                 <property name="accelerator">&lt;Primary&gt;q</property>
                 <property name="title" translatable="yes">Termina il programma</property>
                 <property name="visible">True</property>
