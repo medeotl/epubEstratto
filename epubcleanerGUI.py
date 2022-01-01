@@ -24,6 +24,8 @@ class EpubCleaner( Gtk.Application ):
         self.connect( "activate", self.activate )
         self.connect( "shutdown", self.shutdown )
 
+        self.set_accels_for_action( "win.show-help-overlay", ["<primary>question"] )
+
         self.working_dir = "./.epubunzipped/"
 
         try:
@@ -49,6 +51,9 @@ class EpubCleaner( Gtk.Application ):
         self.builder.add_from_file( "correzione.glade" )
         self.builder.connect_signals( self )
         self.window = self.builder.get_object( "window" )
+        self.builder.add_from_file( "shortcuts.ui" )
+        shortcuts = self.builder.get_object( "shortcuts" )
+        self.window.set_help_overlay( shortcuts )
         self.tag_sillabata = self.builder.get_object( "bold red underlined" )
 
     def activate( self, app ):
@@ -247,9 +252,6 @@ class EpubCleaner( Gtk.Application ):
         print( """
         @@@ Abbiamo parlato delle nostre preferenze e dei nostri gusti e
         abbiamo scoperto che ci piacciono gli stessi batteri.  W. Allen""" )
-
-    def mostra_shortcuts( self, modalBtnShortcuts ):
-        print( "@@@ shortcuts" )
 
     def mostra_about( self, modalBtnAbout ):
         self.builder.add_from_file( "about.ui" )
