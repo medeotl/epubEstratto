@@ -3,7 +3,7 @@
 
 import gi
 gi.require_version( 'Gtk', '3.0')
-from gi.repository import Gio, Gtk
+from gi.repository import Gio, Gtk, Gdk
 
 from bs4 import BeautifulSoup # browse del file HTML
 import re # ricerca parole in testo
@@ -23,6 +23,8 @@ class EpubCleaner( Gtk.Application ):
         self.connect( "startup", self.startup )
         self.connect( "activate", self.activate )
         self.connect( "shutdown", self.shutdown )
+
+        self.set_accels_for_action( "win.show-help-overlay", ["<primary>question"] )
 
         self.working_dir = "./.epubunzipped/"
 
@@ -49,11 +51,22 @@ class EpubCleaner( Gtk.Application ):
         self.builder.add_from_file( "correzione.glade" )
         self.builder.connect_signals( self )
         self.window = self.builder.get_object( "window" )
+        self.builder.add_from_file( "shortcuts.ui" )
+        shortcuts = self.builder.get_object( "shortcuts" )
+        self.window.set_help_overlay( shortcuts )
         self.tag_sillabata = self.builder.get_object( "bold red underlined" )
 
     def activate( self, app ):
         # app lanciata da SO (non da file manager)
         app.add_window( self.window )
+        accel_group = Gtk.AccelGroup()
+        accel_group.connect(
+            Gdk.keyval_from_name( 'Q' ),
+            Gdk.ModifierType.CONTROL_MASK,
+            0,
+            lambda acc_group,app_win,q,ctrl: app.quit()
+        )
+        self.window.add_accel_group( accel_group )
         self.window.show_all()
 
     def open( self, app ):
@@ -149,7 +162,8 @@ class EpubCleaner( Gtk.Application ):
             return
 
         print( "--- OPERO SU %s --- \n" % self.file_corrente )
-        self.window.set_title( self.file_corrente )
+        headerbar = self.builder.get_object( "headerbar" )
+        headerbar.set_subtitle( self.file_corrente )
 
         self.zuppa = BeautifulSoup(
             open( self.working_dir + self.file_corrente ), "lxml" )
@@ -241,6 +255,19 @@ class EpubCleaner( Gtk.Application ):
         print( "--- SALVATO " + self.file_corrente + "\n")
         self.trova_sillabate()
 
+    def mostra_preferenze( self, modalBtnPreferenze ):
+        print( "@@@ preferenze" )
+        print( """
+        @@@ Abbiamo parlato delle nostre preferenze e dei nostri gusti e
+        abbiamo scoperto che ci piacciono gli stessi batteri.  W. Allen""" )
+
+    def mostra_about( self, modalBtnAbout ):
+        self.builder.add_from_file( "about.ui" )
+        about_dialog = self.builder.get_object( "dlgAbout" )
+        about_dialog.set_transient_for( self.window )
+        about_dialog.connect( "close", lambda: about_dialog.destroy() )
+        about_dialog.show_all()
+
     def shutdown( self, app ):
         """ chiusura programma """
         # salvo le aggiunte alla whitelist
@@ -251,9 +278,6 @@ class EpubCleaner( Gtk.Application ):
                         f.write( "%s\n" % parola )
             except:
                 print( "CHI HA CANCELLATO IL FILE?!?!!? \n" )
-
-        # TODO: zippare working_dir per creare nuovo  epub
-
         app.quit()
 
 if __name__ == '__main__':
