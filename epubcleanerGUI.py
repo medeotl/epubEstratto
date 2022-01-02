@@ -3,7 +3,7 @@
 
 import gi
 gi.require_version( 'Gtk', '3.0')
-from gi.repository import Gio, Gtk
+from gi.repository import Gio, Gtk, Gdk
 
 from bs4 import BeautifulSoup # browse del file HTML
 import re # ricerca parole in testo
@@ -59,6 +59,14 @@ class EpubCleaner( Gtk.Application ):
     def activate( self, app ):
         # app lanciata da SO (non da browser)
         app.add_window( self.window )
+        accel_group = Gtk.AccelGroup()
+        accel_group.connect(
+            Gdk.keyval_from_name( 'Q' ),
+            Gdk.ModifierType.CONTROL_MASK,
+            0,
+            lambda acc_group,app_win,q,ctrl: app.quit()
+        )
+        self.window.add_accel_group( accel_group )
         self.window.show_all()
 
     def open( self, app ):

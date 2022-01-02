@@ -138,6 +138,7 @@
                 <property name="receives-default">True</property>
                 <property name="tooltip-text" translatable="yes">Lascia intatta la parola</property>
                 <signal name="clicked" handler="on_mantieni_clicked" swapped="no"/>
+                <accelerator key="m" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
               </object>
               <packing>
                 <property name="expand">False</property>
@@ -154,6 +155,7 @@
                 <property name="receives-default">True</property>
                 <property name="tooltip-text" translatable="yes">Lascia intatta la parola e la inserisce in una whitelist</property>
                 <signal name="clicked" handler="on_whitelist_clicked" swapped="no"/>
+                <accelerator key="w" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
               </object>
               <packing>
                 <property name="expand">True</property>
@@ -170,6 +172,7 @@
                 <property name="receives-default">True</property>
                 <property name="tooltip-text" translatable="yes">Corregge la parola nell'ebook togliendo il trattino</property>
                 <signal name="clicked" handler="on_correggi_clicked" swapped="no"/>
+                <accelerator key="c" signal="clicked" modifiers="GDK_CONTROL_MASK"/>
               </object>
               <packing>
                 <property name="expand">False</property>
