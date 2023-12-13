@@ -48,7 +48,7 @@ class EpubCleaner( Gtk.Application ):
         # primo ad essere eseguito dopo __init__
         # poi startup() o activate(), dipende da come lancio il progr.
         self.builder = Gtk.Builder()
-        self.builder.add_from_file( "correzione.glade" )
+        self.builder.add_from_file( "correzione.ui" )
         self.builder.connect_signals( self )
         self.window = self.builder.get_object( "window" )
         self.builder.add_from_file( "shortcuts.ui" )
