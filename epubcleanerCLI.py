@@ -1,10 +1,6 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import gi
-gi.require_version( 'Gtk', '3.0' )
-from gi.repository import Gtk
-
 from bs4 import BeautifulSoup # browse del file HTML
 
 import re
