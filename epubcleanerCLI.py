@@ -25,7 +25,7 @@ def correggiSillabateCLI( paragrafo, lista_sillabate ):
 # ---- MAIN ----
 
 zuppa = BeautifulSoup( open("./epubs/JurassicPark/index_split_000.html"),
-                      "lxml" )
+                      "html.parser" )
 
 for tag_paragrafo in zuppa.find_all( "p" ):
     paragrafo = tag_paragrafo.string

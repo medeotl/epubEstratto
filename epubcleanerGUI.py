@@ -46,7 +46,7 @@ class EpubCleaner( Gtk.Application ):
 
     def startup( self, app ):
         # primo ad essere eseguito dopo __init__
-        # poi startup() o activate(), dipende da come lancio il progr.
+        # poi activate() o open(), dipende da come lancio il programma
         self.builder = Gtk.Builder()
         self.builder.add_from_file( "correzione.ui" )
         self.builder.connect_signals( self )
@@ -59,6 +59,8 @@ class EpubCleaner( Gtk.Application ):
     def activate( self, app ):
         # app lanciata da SO (non da file manager)
         app.add_window( self.window )
+        
+        # aggiungo accelleratore per Ctrl+Q --> Quit
         accel_group = Gtk.AccelGroup()
         accel_group.connect(
             Gdk.keyval_from_name( 'Q' ),
@@ -67,6 +69,7 @@ class EpubCleaner( Gtk.Application ):
             lambda acc_group,app_win,q,ctrl: app.quit()
         )
         self.window.add_accel_group( accel_group )
+        
         self.window.show_all()
 
     def open( self, app ):
@@ -98,6 +101,7 @@ class EpubCleaner( Gtk.Application ):
         # file presenti in ./ o ./OEBPS/Text/
         #TODO gestire correttamente working_dir
         # file possono essere anche in /OEBPS/ (es. Da dove entra la luce)
+        # file possono essere anche in /text (es. L'ultimo cavaliere)
         if os.path.exists( self.working_dir + "OEBPS/Text/" ):
             # i files sono nella directory /OEBPS/Text
             self.working_dir = self.working_dir + "OEBPS/Text/"
@@ -133,14 +137,15 @@ class EpubCleaner( Gtk.Application ):
 
         # aggiorno i paragrafi
         for idx_par in self.index_paragrafi:
-            paragrafo = self.tag_paragrafi[idx_par].string
-            paragrafo_corretto = paragrafo.replace(
-                                                self.sillabata_corrente,
-                                                cambiata
-                                                )
+            paragrafo = self.tag_paragrafi[idx_par]
+            for item in paragrafo.contents:
+                if self.sillabata_corrente in item:
+                    paragrafo_corretto = item.replace(self.sillabata_corrente,
+                                                      cambiata)
+                    print ("_---_ paragrafo corretto: \n%s\n" % (paragrafo_corretto) )
+                    break
             self.tag_paragrafi[idx_par].string = paragrafo_corretto
         # proseguo
-        #~ print( "paragrafo_corretto: %s \n" % paragrafo_corretto )
         self.aggiorna_GUI()
 
     def trova_sillabate( self ):
@@ -166,14 +171,16 @@ class EpubCleaner( Gtk.Application ):
         headerbar.set_subtitle( self.file_corrente )
 
         self.zuppa = BeautifulSoup(
-            open( self.working_dir + self.file_corrente ), "lxml" )
+            open( self.working_dir + self.file_corrente ), "html.parser" )
 
         self.tag_paragrafi = self.zuppa.find_all( "p" )
 
         diz_sillabate = {}
         for index, tag_paragrafo in enumerate( self.tag_paragrafi ):
-            paragrafo = tag_paragrafo.string
-            if paragrafo != None:  # paragrafo non vuoto, procedo
+            print( "DEBUG ---\n" + tag_paragrafo.text + "\n---------\n")
+            # --------- DEBUG -----------
+            paragrafo = tag_paragrafo.text
+            if paragrafo != "":  # paragrafo non vuoto, procedo
                 l = re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U )
                 if l != []: # paragrafo contiene una o più sillabate
                     for sillabata in l:
@@ -190,8 +197,7 @@ class EpubCleaner( Gtk.Application ):
                         # sillabata da gestire
                         else:
                             if sillabata in diz_sillabate:
-                                diz_sillabate[sillabata].append(
-                                    index)
+                                diz_sillabate[sillabata].append( index )
                             else:
                                 diz_sillabate[sillabata] = [ index ]
 
@@ -225,11 +231,12 @@ class EpubCleaner( Gtk.Application ):
             return
 
         sillabata = self.sillabata_corrente
+        print ("DEBUG --- sillabata corrente: %s \n" % self.sillabata_corrente)
         index_paragrafo = self.index_paragrafi[0]
 
         txtbuffer = self.builder.get_object( "txtbfrFrase" )
 
-        paragrafo = self.tag_paragrafi[ index_paragrafo ].string
+        paragrafo = self.tag_paragrafi[ index_paragrafo ].text
 
         # ricerco la frase del paragrafo contenente la sillabata
         # e la evidenzio con tag apposito
@@ -270,7 +277,7 @@ class EpubCleaner( Gtk.Application ):
 
     def shutdown( self, app ):
         """ chiusura programma """
-        # salvo le aggiunte alla whitelist
+        # aggiungo le nuove parole whitelist nel file apposito
         if self.whitelist != []:
             try:
                 with open( "whitelist.txt", 'a' ) as f:
