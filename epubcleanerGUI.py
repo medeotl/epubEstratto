@@ -98,13 +98,15 @@ class EpubCleaner( Gtk.Application ):
         with zipfile.ZipFile( libro, 'r' ) as epub:
             epub.extractall( self.working_dir )
 
-        # file presenti in ./ o ./OEBPS/Text/
-        #TODO gestire correttamente working_dir
-        # file possono essere anche in /OEBPS/ (es. Da dove entra la luce)
-        # file possono essere anche in /text (es. L'ultimo cavaliere)
-        if os.path.exists( self.working_dir + "OEBPS/Text/" ):
-            # i files sono nella directory /OEBPS/Text
-            self.working_dir = self.working_dir + "OEBPS/Text/"
+        possible_files_dir = ["OEBPS/Text",
+                              "OEBPS/text",
+                              "OEBPS",
+                              "text"]
+        # ricerco directory contenente i file html da controllare
+        for directory in possible_files_dir:
+            if os.path.exists( self.working_dir + directory):
+                self.working_dir = f"{self.working_dir}{directory}/"
+                break
 
         print( "files_dir: %s \n" % self.working_dir )
         # creo lista file html da controllare
