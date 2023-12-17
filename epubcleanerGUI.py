@@ -140,12 +140,11 @@ class EpubCleaner( Gtk.Application ):
         # aggiorno i paragrafi
         for idx_par in self.index_paragrafi:
             paragrafo = self.tag_paragrafi[idx_par]
-            for item in paragrafo.contents:
-                if self.sillabata_corrente in item.string:
-                    item.string.replace_with(
-                        item.string.replace( self.sillabata_corrente, cambiata )
-                    )
-                    print ("_---_ paragrafo corretto: \n%s\n" % (item.string) )
+            for stringa in paragrafo.strings:
+                if self.sillabata_corrente in stringa:
+                    stringa.replace_with( stringa.replace( self.sillabata_corrente,
+                                                           cambiata
+                                                         ) )
                     break
         # proseguo
         self.aggiorna_GUI()
@@ -211,8 +210,8 @@ class EpubCleaner( Gtk.Application ):
         lista_sillabate = sorted( diz_sillabate.items(),
                                   key = lambda t: t[1]
                                   )
-        # ~ for sillabata, indexes in lista_sillabate:
-            # ~ print( sillabata, indexes, "\n")
+        for sillabata, indexes in lista_sillabate:
+            print( sillabata, indexes, "\n")
 
         # creo iterator per il risultato ottenuto
         self.elenco_sillabate = iter( lista_sillabate )
