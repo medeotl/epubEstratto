@@ -1,11 +1,6 @@
 .gitignore
+*.epub
 *.pyc
 ./__pycache__
-prove*.py
-*.glade~
-*.html
-percorsi.txt
-paginatedtextdocument.txt
-provaTracker.py
-epubs/*
 .epubunzipped/
+test/
