@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.38.2 -->
+<!-- Generated with glade 3.40.0 -->
 <interface>
   <requires lib="gtk+" version="3.24"/>
   <object class="GtkFileFilter" id="filefilter4epub">
@@ -74,7 +74,7 @@
   </object>
   <object class="GtkApplicationWindow" id="window">
     <property name="can-focus">False</property>
-    <property name="border-width">6</property>
+    <property name="border-width">12</property>
     <property name="window-position">center</property>
     <property name="default-width">420</property>
     <property name="default-height">300</property>
@@ -103,6 +103,7 @@
             <property name="can-focus">True</property>
             <property name="editable">False</property>
             <property name="wrap-mode">word</property>
+            <property name="justification">fill</property>
             <property name="buffer">txtbfrFrase</property>
           </object>
           <packing>
