@@ -24,7 +24,7 @@ class EpubCleaner( Gtk.Application ):
         self.connect( "activate", self.activate )
         self.connect( "shutdown", self.shutdown )
 
-        self.set_accels_for_action( "win.show-help-overlay", ["<primary>question"] )
+        self.set_accels_for_action( "win.show-help-overlay", ["<CTRL>question"] )
 
         self.working_dir = "./.epubunzipped/"
 
@@ -62,12 +62,9 @@ class EpubCleaner( Gtk.Application ):
         
         # aggiungo accelleratore per Ctrl+Q --> Quit
         accel_group = Gtk.AccelGroup()
-        accel_group.connect(
-            Gdk.keyval_from_name( 'Q' ),
-            Gdk.ModifierType.CONTROL_MASK,
-            0,
-            lambda acc_group,app_win,q,ctrl: app.quit()
-        )
+        accel_group.connect( *Gtk.accelerator_parse("<Control>q"),
+                             0,
+                             lambda acc_group, app_win, q, ctrl: app.quit() )
         self.window.add_accel_group( accel_group )
         
         self.window.show_all()
