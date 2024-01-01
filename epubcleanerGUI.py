@@ -15,10 +15,9 @@ import zipfile
 class EpubCleaner( Gtk.Application ):
 
     def __init__( self ):
-        Gtk.Application.__init__(
-            self,
-            application_id="com.wordpress.laconcoide.epubcleaner",
-            flags=Gio.ApplicationFlags.FLAGS_NONE )
+        Gtk.Application.__init__( self,
+                                  application_id="com.wordpress.laconcoide.epubcleaner",
+                                  flags=Gio.ApplicationFlags.FLAGS_NONE )
 
         self.connect( "startup", self.startup )
         self.connect( "activate", self.activate )
@@ -95,11 +94,11 @@ class EpubCleaner( Gtk.Application ):
         with zipfile.ZipFile( libro, 'r' ) as epub:
             epub.extractall( self.working_dir )
 
+        # ricerco directory contenente i file html da controllare
         possible_files_dir = ["OEBPS/Text",
                               "OEBPS/text",
                               "OEBPS",
                               "text"]
-        # ricerco directory contenente i file html da controllare
         for directory in possible_files_dir:
             if os.path.exists( self.working_dir + directory):
                 self.working_dir = f"{self.working_dir}{directory}/"
