@@ -238,7 +238,7 @@ class EpubCleaner( Gtk.Application ):
         frasi = paragrafo.split( "." )
         for frase in frasi:
             if frase.find( sillabata ) != -1: # frase contiene sillabata
-                txtbuffer.set_text( frase )
+                txtbuffer.set_text( frase + "." )
                 # evidenzio in grassetto sottolineato rosso la sillabata
                 start = frase.find( sillabata )
                 end = start + len( sillabata )
