@@ -28,15 +28,15 @@ zuppa = BeautifulSoup( open("./epubs/JurassicPark/index_split_000.html"),
                       "html.parser" )
 
 for tag_paragrafo in zuppa.find_all( "p" ):
-    paragrafo = tag_paragrafo.string
-    if paragrafo != None:
+    paragrafo = tag_paragrafo.text
+    if paragrafo != "":
         l = listaSillabate( paragrafo )
         if l != []:
             # trovato paragrafo con una o più sillabate
             correggiSillabateCLI( paragrafo, l )
 
 # salvo i risultati
-with open( "JurassicPark000Modificato.html", "wt" ) as file:
+with open( "epubModificato.html", "wt" ) as file:
     file.write( zuppa.prettify(zuppa.original_encoding) )
 
 # Riferimenti:
