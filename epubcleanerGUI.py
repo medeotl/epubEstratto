@@ -177,24 +177,24 @@ class EpubCleaner( Gtk.Application ):
             paragrafo = tag_paragrafo.text
             if paragrafo != "":  # paragrafo non vuoto, procedo
                 l = re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U )
-                if l != []: # paragrafo contiene una o più sillabate
-                    for sillabata in l:
-                        # whitelist check
-                        if sillabata.lower() in self.whitelist:
-                            print( "whitelist ignorata: %s \n" %sillabata )
-                        # keeplist check
-                        elif sillabata.lower() in self.keeplist:
-                            print( "*************************" )
-                            print( "*************************" )
-                            print( "keeplist ignorata: %s" %sillabata )
-                            print( "*************************" )
-                            print( "************************* \n" )
-                        # sillabata da gestire
-                        else:
-                            if sillabata in diz_sillabate:
-                                diz_sillabate[sillabata].append( index )
-                            else:
-                                diz_sillabate[sillabata] = [ index ]
+                for sillabata in l:
+                    # whitelist check
+                    if sillabata.lower() in self.whitelist:
+                        print( "whitelist ignorata: %s \n" %sillabata )
+                        continue
+                    # keeplist check
+                    if sillabata.lower() in self.keeplist:
+                        print( "*************************" )
+                        print( "*************************" )
+                        print( "keeplist ignorata: %s" %sillabata )
+                        print( "*************************" )
+                        print( "************************* \n" )
+                        continue
+                    # sillabata da gestire
+                    if sillabata in diz_sillabate:
+                        diz_sillabate[sillabata].append( index )
+                    else:
+                        diz_sillabate[sillabata] = [ index ]
 
         if len( diz_sillabate ) == 0:
             # il file corrente non contiene sillabate
