@@ -39,8 +39,6 @@ class EpubCleaner( Gtk.Application ):
             f = open( "whitelist.txt", "w" )
             f.close()
 
-        print( "whitelist: %s" % self.whitelist )
-
         self.keeplist = [] # lista delle sillabate da mantenere
 
     def startup( self, app ):
@@ -58,14 +56,14 @@ class EpubCleaner( Gtk.Application ):
     def activate( self, app ):
         # app lanciata da SO (non da file manager)
         app.add_window( self.window )
-        
+
         # aggiungo accelleratore per Ctrl+Q --> Quit
         accel_group = Gtk.AccelGroup()
         accel_group.connect( *Gtk.accelerator_parse("<Control>q"),
                              0,
                              lambda acc_group, app_win, q, ctrl: app.quit() )
         self.window.add_accel_group( accel_group )
-        
+
         self.window.show_all()
 
     def open( self, app ):
@@ -226,7 +224,7 @@ class EpubCleaner( Gtk.Application ):
             return
 
         sillabata = self.sillabata_corrente
-        print ("DEBUG --- sillabata corrente: %s \n" % self.sillabata_corrente)
+        print ("DEBUG --- sillabata corrente: %s \n" % sillabata)
         index_paragrafo = self.index_paragrafi[0]
 
         txtbuffer = self.builder.get_object( "txtbfrFrase" )
