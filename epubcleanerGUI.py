@@ -173,7 +173,6 @@ class EpubCleaner( Gtk.Application ):
         diz_sillabate = {}
         for index, tag_paragrafo in enumerate( self.tag_paragrafi ):
             paragrafo = tag_paragrafo.text
-            if paragrafo != "":  # paragrafo non vuoto, procedo
                 l = re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U )
                 for sillabata in l:
                     # whitelist check
