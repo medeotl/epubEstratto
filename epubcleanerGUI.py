@@ -136,9 +136,9 @@ class EpubCleaner( Gtk.Application ):
             paragrafo = self.tag_paragrafi[idx_par]
             for stringa in paragrafo.strings:
                 if self.sillabata_corrente in stringa:
-                    stringa.replace_with( stringa.replace( self.sillabata_corrente,
-                                                           cambiata
-                                                         ) )
+                    stringa.replace_with(
+                        stringa.replace( self.sillabata_corrente, cambiata)
+                    )
                     break
         # proseguo
         self.aggiorna_GUI()
@@ -161,7 +161,7 @@ class EpubCleaner( Gtk.Application ):
             app.window.destroy()
             return
 
-        print( "--- OPERO SU %s --- \n" % self.file_corrente )
+        print( "-------           OPERO SU %s         ------- \n" % self.file_corrente )
         headerbar = self.builder.get_object( "headerbar" )
         headerbar.set_subtitle( self.file_corrente )
 
