@@ -84,7 +84,7 @@ def correggiSillabate():
                     if sillabata in frase:
                         print( "FRASE: " + frase.lstrip() + "." )
                         break
-                print( "Correggo la sillabata corrente? [Sì|no|whitelist] ")
+                print( f"Correggo la sillabata corrente ({sillabata})? [Sì|no|whitelist] ")
                 fix_sillabata = input( "Scelta: [S|n|w]: ")
                 match fix_sillabata:
                     case "n": # keeplist!
@@ -100,7 +100,7 @@ def correggiSillabate():
 
 def salvaModifiche( zuppa, file_html ):
     # salva le modifiche apportate nel file html
-    # ~ print( zuppa.prettify() )
+    
     with open( working_dir + file_html, "wt" ) as f:
         f.write( str( zuppa ) )
         print( f"--- SALVATO {file_html} \n" )
