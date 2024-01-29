@@ -100,7 +100,8 @@ def correggiSillabate():
 
 def salvaModifiche( zuppa, file_html ):
     # salva le modifiche apportate nel file html
-    with open( file_html, "wt" ) as f:
+    # ~ print( zuppa.prettify() )
+    with open( working_dir + file_html, "wt" ) as f:
         f.write( str( zuppa ) )
         print( f"--- SALVATO {file_html} \n" )
 
