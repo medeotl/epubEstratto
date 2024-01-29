@@ -105,6 +105,17 @@ def salvaModifiche( zuppa, file_html ):
         f.write( str( zuppa ) )
         print( f"--- SALVATO {file_html} \n" )
 
+def salvaWhitelist():
+    """ salva la whitelist aggiornata su HD """
+    
+    if whitelist != []:
+        try:
+            with open( "whitelist.txt", 'a' ) as f:
+                for parola in whitelist[original_lenght:]:
+                    f.write( f"{parola}\n" )
+        except:
+            print( "CHI HA CANCELLATO IL FILE?!?!!? \n" )
+
 def ricreaEpub():
     # ricreo il file ePub
     print( "--- MODIFICHE TERMINATE --- \n" )
@@ -191,6 +202,8 @@ if check_sillabate != 'n':
     # correggo le sillabate
     correggiSillabate()
 
+salvaWhitelist()
 ricreaEpub()
+
 
 # TODO: se ho due p monchi consecutivi, l'unione dei due sarò ancora monco.
