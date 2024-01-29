@@ -71,14 +71,15 @@ def correggiSillabate():
         for p_tag in zuppa.find_all( "p" ):
             paragrafo = p_tag.text
             for sillabata in re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U ):
+                # whitelist?
                 if sillabata.lower() in whitelist:
                     print( f"sillabata nella WHITELIST: {sillabata} \n" )
                     continue
+                # keeplist?
                 if sillabata.lower() in keeplist:
                     print( f"sillabata nella KEEPLIST: {sillabata} \n")
                     continue
                 # sillabata da gestire
-                print("-------- DEBUG PARAGRAFO --------", paragrafo, "\n")
                 for frase in paragrafo.split( "." ):
                     if sillabata in frase:
                         print( "FRASE: " + frase.lstrip() + "." )
@@ -86,24 +87,19 @@ def correggiSillabate():
                 print( "Correggo la sillabata corrente? [Sì|no|whitelist] ")
                 fix_sillabata = input( "Scelta: [S|n|w]: ")
                 match fix_sillabata:
-                    case "n":
+                    case "n": # keeplist!
                         keeplist.append( sillabata.lower() )
                         print (f"{sillabata} aggiunta alla lista delle sillabate da mantenere nell'ebook")
-                    case "w":
+                    case "w": # whitelist!
                         whitelist.append( sillabata.lower() )
                         print (f"{sillabata} aggiunta alla whitelist")
                     case _:
                         # correggo la sillabata
                         print( "---DEBUG: prima o poi la correggo ---" )
                 
-    # ~ 
-    # ~ if sillabata:
-        # ~ print( "@@@ trovata sillabata: {}".format( *sillabata ))
-        # ~ paragrafo.replace( "- ", "-" )
 
 def salvaModifiche( zuppa, file_html ):
     # salva le modifiche apportate nel file html
-    # TODO non bisogna salvare un file html che non ha subito modifiche (Cinema Speculation)
     with open( file_html, "wt" ) as f:
         f.write( str( zuppa ) )
         print( f"--- SALVATO {file_html} \n" )
