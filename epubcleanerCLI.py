@@ -93,10 +93,17 @@ def correggiSillabate():
                     case "w": # whitelist!
                         whitelist.append( sillabata.lower() )
                         print (f"{sillabata} aggiunta alla whitelist")
-                    case _:
-                        # correggo la sillabata
-                        print( "---DEBUG: prima o poi la correggo ---" )
-                
+                    case _: # correggo la sillabata
+                        cambiata = sillabata.replace( '-', '' )
+                        for stringa in p_tag.strings:
+                            if sillabata in stringa:
+                                nuova_stringa = stringa.replace( sillabata, cambiata )
+                                stringa.replace_with( nuova_stringa )
+                                break
+        # fine controllo paragrafi, salvo il file
+        # TODO non bisogna salvare un file html che non ha subito modifiche (Cinema Speculation)
+        salvaModifiche( zuppa, file_corrente )
+    # fine elaborazione
 
 def salvaModifiche( zuppa, file_html ):
     # salva le modifiche apportate nel file html
