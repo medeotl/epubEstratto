@@ -58,7 +58,7 @@ def unisciParagrafi():
         zuppa_originale = BeautifulSoup( open( working_dir + file_corrente ),
                                          "html.parser" )
         if zuppa != zuppa_originale:
-            salvaModifiche( zuppa, working_dir+file_corrente)
+            salvaModifiche( zuppa, file_corrente)
 
 def correggiSillabate():
     # check sillabata sbagliata
