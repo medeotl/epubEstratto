@@ -127,9 +127,9 @@ def ricreaEpub():
     # ricreo il file ePub
     print( "--- MODIFICHE TERMINATE --- \n" )
     # ricreo il file epub
-    shutil.make_archive("ebook_MODIFICATO", "zip", ".epubunzipped")
-    os.rename("ebook_MODIFICATO.zip", "ebook_MODIFICATO.epub")
-    print("File ripulito salvato in: ebook_MODIFICATO.epub")
+    shutil.make_archive("ebook MODIFICATO", "zip", ".epubunzipped")
+    os.rename("ebook MODIFICATO.zip", "ebook MODIFICATO.epub")
+    print("File ripulito salvato in: ebook MODIFICATO.epub")
 
 ######----------                          MAIN                          ----------######
 try:
