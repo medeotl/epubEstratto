@@ -183,9 +183,9 @@ print( "lista file: {}\n".format( lista_file ))
 
 
 # controllo paragrafi monchi?
-# ~ check_paragrafi = input( "Eseguo controllo su paragrafi monchi? [S|n]: ")
-# ~ if check_paragrafi != 'n':
-    # ~ unisciParagrafi()
+check_paragrafi = input( "Eseguo controllo su paragrafi monchi? [S|n]: ")
+if check_paragrafi != 'n':
+    unisciParagrafi()
 
 # controllo sillabate errate?
 check_sillabate = input( "Eseguo controllo su sillabate errate? [S|n]: ")
