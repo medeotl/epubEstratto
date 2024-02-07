@@ -192,7 +192,7 @@ check_sillabate = input( "Eseguo controllo su sillabate errate? [S|n]: ")
 if check_sillabate != 'n':
     # carico lista delle sillabate consentite
     try:
-        with open( "./whitelist.txt" ) as f: #FIXME poi riportarlo a ./
+        with open( "./whitelist.txt" ) as f:
             whitelist = f.read().splitlines()
             original_lenght = len( whitelist )
     except:
