@@ -173,21 +173,21 @@ class EpubCleaner( Gtk.Application ):
         diz_sillabate = {}
         for index, tag_paragrafo in enumerate( self.tag_paragrafi ):
             paragrafo = tag_paragrafo.text
-                l = re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U )
-                for sillabata in l:
-                    # whitelist check
-                    if sillabata.lower() in self.whitelist:
-                        print( f"sillabata nella WHITELIST: {sillabata} \n" )
-                        continue
-                    # keeplist check
-                    if sillabata.lower() in self.keeplist:
-                        print( f"sillabata nella KEEPLIST: {keeplist} \n")
-                        continue
-                    # sillabata da gestire
-                    if sillabata in diz_sillabate:
-                        diz_sillabate[sillabata].append( index )
-                    else:
-                        diz_sillabate[sillabata] = [ index ]
+            l = re.findall( r"\w+(?:-[\w]+)+", paragrafo, re.U )
+            for sillabata in l:
+                # whitelist check
+                if sillabata.lower() in self.whitelist:
+                    print( f"sillabata nella WHITELIST: {sillabata} \n" )
+                    continue
+                # keeplist check
+                if sillabata.lower() in self.keeplist:
+                    print( f"sillabata nella KEEPLIST: {keeplist} \n")
+                    continue
+                # sillabata da gestire
+                if sillabata in diz_sillabate:
+                    diz_sillabate[sillabata].append( index )
+                else:
+                    diz_sillabate[sillabata] = [ index ]
 
         if len( diz_sillabate ) == 0:
             # il file corrente non contiene sillabate
