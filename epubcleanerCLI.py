@@ -208,8 +208,8 @@ if check_sillabate != 'n':
     
     # correggo le sillabate
     correggiSillabate()
+    salvaWhitelist()
 
-salvaWhitelist()
 ricreaEpub()
 
 
