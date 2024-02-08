@@ -111,9 +111,11 @@ def correggiSillabate():
                                 nuova_stringa = stringa.replace( sillabata, cambiata )
                                 stringa.replace_with( nuova_stringa )
                                 break
-        # fine controllo paragrafi, salvo il file
-        # TODO non bisogna salvare un file html che non ha subito modifiche (Cinema Speculation)
-        salvaModifiche( zuppa, file_corrente )
+        # fine controllo paragrafi, salvo eventuali modifiche
+        zuppa_originale = BeautifulSoup( open( working_dir + file_corrente ),
+                                         "html.parser" )
+        if zuppa != zuppa_originale:
+            salvaModifiche( zuppa, file_corrente)
     # fine elaborazione
 
 def salvaModifiche( zuppa, file_html ):
@@ -135,7 +137,6 @@ def salvaWhitelist():
             print( "CHI HA CANCELLATO IL FILE?!?!!? \n" )
 
 def ricreaEpub():
-    # ricreo il file ePub
     print( "--- MODIFICHE TERMINATE --- \n" )
     # ricreo il file epub
     shutil.make_archive("ebook MODIFICATO", "zip", ".epubunzipped")
@@ -217,7 +218,6 @@ if check_sillabate != 'n':
     # creo lista (vuota per ora) delle sillabate da lasciare per l'epub corrente
     keeplist = [] 
     
-    # correggo le sillabate
     correggiSillabate()
     salvaWhitelist()
 
