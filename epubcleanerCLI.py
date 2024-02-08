@@ -39,19 +39,19 @@ def unisciParagrafi():
             if paragrafo == "" :
                 continue
             if re.match( r"[^.…!?:»”]", paragrafo[-1], re.U ):
-                next_p_tag = p_tag.findNextSibling()
-                if (next_p_tag == None) or (next_p_tag.text.rstrip() == ""):
+                p_tag_next = p_tag.findNextSibling()
+                if (p_tag_next == None) or (p_tag_next.text.rstrip() == ""):
                     continue
                 print( "\n@@@ trovata paragrafo errato: \n{}".format( repr(paragrafo) ))
-                print( repr( next_p_tag.text.rstrip() ))
+                print( repr( p_tag_next.text.rstrip() ))
                 unificare = input( "unifico i paragrafri? [S|n]: ")
                 if unificare != 'n':
                     # unisco i due paragrafi
                     print( "---DEBUG: Unifico i paragrafi ---" )
-                    while next_p_tag.contents != []:
-                        p_tag.append( next_p_tag.contents[0] )
+                    while p_tag_next.contents != []:
+                        p_tag.append( p_tag_next.contents[0] )
                     # elimino secondo paragrafo e pulisco
-                    next_p_tag.decompose()
+                    p_tag_next.decompose()
                     p_tag.smooth()
 
         # salvo eventuali modifiche
