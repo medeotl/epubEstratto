@@ -27,21 +27,32 @@ def unisciParagrafi():
         # es. <p>“anche questo è un dialogo”    </p>
         # es. <p>immagino tu stia iniziando a capire…  </p>
         # es. <p>grande giove!</p>
+    # i paragrafi non dovrebbero finire con "-"
+        # es. <p>corregeva le sillaba-</p><p>te e i paragrafi monchi.</p>
 
     for file_corrente in lista_file:
         print( f"\n--- OPERO SU {file_corrente} ---" )
         zuppa = BeautifulSoup( open( working_dir + file_corrente ), "html.parser" )
 
         # controllo paragrafi monchi in file corrente
-        for p_tag in zuppa.find_all( "p" ):
+        lista_p = zuppa.find_all( "p" )
+        for p_tag, p_tag_next in zip( lista_p[:-1], lista_p[1:] ):
             paragrafo = p_tag.text.rstrip()
-            # check paragrafo monco
             if paragrafo == "" :
                 continue
+            # check paragrafo monco
             if re.match( r"[^.…!?:»”]", paragrafo[-1], re.U ):
-                p_tag_next = p_tag.findNextSibling()
-                if (p_tag_next == None) or (p_tag_next.text.rstrip() == ""):
+                # check paragrafo monco sillabato
+                if paragrafo.endswith( "-" ):
+                    # cancello l'a capo
+                    p_tag_next.decompose()
+                    # imposto p_tag_next al valore corretto
+                    p_tag_next = p_tag.findNextSibling()
+
+                if p_tag_next.text.rstrip() == "" :
                     continue
+
+                # richiedo valutazione dell'utente        
                 print( "\n@@@ trovata paragrafo errato: \n{}".format( repr(paragrafo) ))
                 print( repr( p_tag_next.text.rstrip() ))
                 unificare = input( "unifico i paragrafri? [S|n]: ")
