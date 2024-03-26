@@ -62,6 +62,51 @@ def isParagrafoMonco( paragrafo ):
     else:
         return False
 
+def fixParagrafoMonco( p_tag, p_tag_next ):
+    """ corregge il paragrafo monco """
+
+    print( "---DEBUG: Unifico i paragrafi ---" )
+    while p_tag_next.contents != []:
+        p_tag.append( p_tag_next.contents[0] )
+
+    # elimino secondo paragrafo e pulisco
+    p_tag_next.decompose()
+    p_tag.smooth()
+
+def fixParagrafoMoncoSillabato( p_tag, p_tag_next ):
+    """ corregge il paragrafo monco terminante con una sillabata """
+
+    # prevede un paragrafo del tipo
+    # <p class="calibre2">
+    #   <span class="koboSpan" id="kobo.244.1">Dietro al banco, a sinistra dello specchio, c'era un braciere in cui si con-</span>
+    # </p>
+    # <p class="calibre2">
+    # </p>
+    # <p class="calibre2">
+    #   <span class="koboSpan" id="kobo.246.1">
+    #   </span>
+    #   <span class="koboSpan" id="kobo.246.2">sumava lentamente della carbonella.</span>
+    # </p>
+
+    for stringa in p_tag.strings:
+        if stringa.endswith( "-" ):
+            # elimino eventuale "a capo" successivo
+            if p_tag_next.text == "":
+                # paragrafo vuoto
+                p_tag_next.decompose()
+                p_tag_next = p_tag.findNextSibling()
+            # unisco il testo
+            for item in p_tag_next.contents:
+                if item.get_text() == "\n":
+                    continue
+                else:
+                    nuova_stringa = stringa[:-1]
+                    nuova_stringa += item.get_text()
+                    stringa.replace_with(nuova_stringa)
+                    item.extract()
+                    break
+            break
+
 def unisciParagrafi( zuppa ):
     # unisce i paragrafi monchi del file html
     # i paragrafi finiscono solitamente con "." o "?" o":" o "»" o "”" o "…" o "!"
@@ -83,10 +128,10 @@ def unisciParagrafi( zuppa ):
         if isParagrafoMonco( paragrafo ):
             # check paragrafo monco sillabato
             if paragrafo.endswith( "-" ):
-                # cancello l'a capo
-                p_tag_next.decompose()
-                # imposto p_tag_next al valore corretto
-                p_tag_next = p_tag.findNextSibling()
+                # NB do per scontato che il paragrafo vada corretto
+                print(f"Correggo paragrafo \n {paragrafo}\n")
+                fixParagrafoMoncoSillabato( p_tag, p_tag_next )
+                return
 
             if p_tag_next.text.rstrip() == "" :
                 # TODO controllare utilità di questo passaggio
@@ -98,21 +143,22 @@ def unisciParagrafi( zuppa ):
             print( repr( p_tag_next.text.rstrip() ))
             unificare = input( "unifico i paragrafri? [S|n]: ")
             if unificare != 'n':
-                # unisco i due paragrafi
-                print( "---DEBUG: Unifico i paragrafi ---" )
-                while p_tag_next.contents != []:
-                    p_tag.append( p_tag_next.contents[0] )
-                # elimino secondo paragrafo e pulisco
-                p_tag_next.decompose()
-                p_tag.smooth()
+                fixParagrafoMonco( p_tag, p_tag_next )
 
 
 def correggiSillabate( zuppa ):
     """ cerca e corregge sillabate errate """
 
+    # aggiusta sillabate classiche e sillabate monche
+    #
+    # sillabata classica: <p>Si divertiva mol-to a scrivere</p>
+    #
+    # sillabata monca: <p> Saltava nel cor-<span>\n</span>tile.</p>
+
     # controllo paragrafi contenenti le sillabate
     for p_tag in zuppa.find_all( "p" ):
         paragrafo = p_tag.text
+        # controllo sillabate classiche
         for sillabata in getListaSillabate( paragrafo ):
             # isolo frase del paragrafo
             for frase in paragrafo.split( "." ):
@@ -120,7 +166,20 @@ def correggiSillabate( zuppa ):
                     print( f"FRASE: {frase.lstrip()}." )
                     break
             gestisciSillabata( p_tag, sillabata )
-
+        # controllo sillabate monche
+        if "-\n" in paragrafo:
+            # DEBUG
+            print( f"---DEBUG: {paragrafo} ---" )
+            stringa = p_tag.strings
+            while True:
+                stringa_corrente = next(stringa)
+                if stringa_corrente != "" and stringa_corrente[-1] == "-":
+                    stringa_successiva = next(stringa)
+                    # tolgo il trattino finale
+                    stringa_corrente.replace_with( stringa_corrente[:-1] )
+                    # tolgo l'a capo
+                    stringa_successiva.replace_with( "" )
+                    break
 
 
 def salvaModifiche( zuppa, file_html ):
